@@ -1,0 +1,41 @@
+.header {
+    width: 100%;
+    max-width: 1920px;
+    display: flex;
+    justify-content: center;
+    background: #1C1C21;
+  }
+
+.nav {
+    display: flex;
+    width: 100%;
+    max-width: 1280px;
+}
+
+.link {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    color: inherit;
+}
+
+.list {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr 2fr 2fr;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.listItem {
+    display: flex;
+    align-items: center;
+}
+
+.listItem:nth-child(3) {
+    justify-content: center;
+}
+
+.listItem:last-child {
+    justify-content: right;
+}
