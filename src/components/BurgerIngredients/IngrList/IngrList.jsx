@@ -1,12 +1,13 @@
 import React from 'react';
-import data from '../../../utils/data';
+// import data from '../../../utils/data';
 import stylesIngrList from './IngrList.module.css';
 import Ingr from './Ingr/Ingr';
 
-export default  React.forwardRef(function IngrList(props, ref) {
+export default React.forwardRef(function IngrList(props, ref) {
     const type = props.type;
     const name = type === 'main' ? 'Начинка' : (props.type === 'bun' ? 'Булки' : 'Соусы')
-    const items = data.filter(item => (item.type === type))
+    const items = props.data === undefined ? [] : props.data.filter(item => (item.type === type))
+    
     return (
         <li>
             <h2 ref={ref} className="text text_type_main-medium mt-10">{name}</h2>

@@ -7,21 +7,33 @@ import {
 import React, { useEffect, useRef } from 'react';
 import stylesBurgerConstr from './BurgerConstructor.module.css';
 import data from '../../utils/data';
+import ModalOrder from '../ModalOrder/ModalOrder';
 
 export default function BurgerConstructor() {
     // const [sell,setSell] = React.useState(0)
     const getTotalSum = () => {
         let result = 0;
         data.forEach((item) => {
-          result += item.price;
+            result += item.price;
         });
         result -= 988;
         return result;
-      };
-    
-      const totalSum = React.useMemo(() => {
+    };
+
+    const totalSum = React.useMemo(() => {
         return getTotalSum();
-      }, [data]);
+    }, [data]);
+
+    const handlerOpenModal = () => {
+        setState({visible: true})
+    }
+
+    const handlerCloseModal = () => {
+        setState({visible: false})
+    }
+
+    const [state,setState] = React.useState({visible: false})
+    const modal = (<ModalOrder exit={handlerCloseModal} />)
 
     return (
         <section>
@@ -41,6 +53,7 @@ export default function BurgerConstructor() {
                     {data.map((item) => {
                         if (item.type === 'main' || item.type === 'sauce') {
                             // setSell(sell + item.price)
+                            
                             return (
                                 <li key={item._id} className={`${stylesBurgerConstr.item} mb-4 mr-2`}>
                                     <span className={`mr-2`}>
@@ -68,14 +81,15 @@ export default function BurgerConstructor() {
             </div>
             <div className={`${stylesBurgerConstr.order} ml-4 mr-4 mt-10`}>
                 <p className={`${stylesBurgerConstr.p} text text_type_digits-medium pr-10`}>
-                    {totalSum}
+                    {totalSum} 
                     <span className={`${stylesBurgerConstr.currencyIcon} ml-4 mr-1`}>
                         <CurrencyIcon type="primary"/>
                     </span>
                 </p>
-                <Button htmlType="button" type="primary" size="medium">
+                <Button htmlType="button" type="primary" size="medium" onClick={handlerOpenModal}>
                     Оформить заказ
                 </Button>
+                {state.visible && modal}
             </div>
         </section>
     )

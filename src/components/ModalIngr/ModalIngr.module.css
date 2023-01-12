@@ -1,0 +1,25 @@
+.text {
+    text-align: center;
+}
+
+.img {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    width: 480px;
+    height: 240px;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 20px;
+    text-align: center;
+}
+
+.h2 {
+    height: 64px;
+    line-height: 64px;
+}

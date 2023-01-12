@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 import stylesBurgerIngr from './BurgerIngredients.module.css';
 import IngrList from './IngrList/IngrList';
 
-export default function BurgerIngredients() {
+export default function BurgerIngredients(props) {
     const [current, setCurrent] = React.useState('bun');
 
     const refBun = React.useRef(null)
@@ -33,9 +33,9 @@ export default function BurgerIngredients() {
                 </Tab>
             </nav>
             <ul className={`${stylesBurgerIngr.list} ${stylesBurgerIngr.scroll}`}>
-                <IngrList ref={refBun} key='bun' type='bun'/>
-                <IngrList ref={refSause} key='sauce' type='sauce'/>
-                <IngrList ref={refMain} key='main' type='main'/>
+                <IngrList ref={refBun} key='bun' type='bun' data={props.data} />
+                <IngrList ref={refSause} key='sauce' type='sauce' data={props.data} />
+                <IngrList ref={refMain} key='main' type='main' data={props.data} />
             </ul>
         </section>
     )
