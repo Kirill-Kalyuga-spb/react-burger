@@ -3,6 +3,7 @@ import {
     CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
+import Modal from '../../../Modal/Modal';
 import ModalIngr from '../../../ModalIngr/ModalIngr';
 import stylesIngr from './Ingr.module.css';
 
@@ -18,7 +19,7 @@ export default function Ingr(props) {
     }
 
     const [state,setState] = React.useState({visible: false})
-    const modal = (<ModalIngr exit={handlerCloseModal} data={props.data} />)
+    const modal = (<Modal exit={handlerCloseModal} ><ModalIngr data={props.data} /></Modal>)
 
     return (
         <>

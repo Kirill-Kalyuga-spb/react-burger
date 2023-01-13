@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import stylesBurgerConstr from './BurgerConstructor.module.css';
 import data from '../../utils/data';
 import ModalOrder from '../ModalOrder/ModalOrder';
+import Modal from '../Modal/Modal';
 
 export default function BurgerConstructor() {
     const [sell, setSell] = useState(null)
@@ -38,7 +39,7 @@ export default function BurgerConstructor() {
     }
 
     const [state,setState] = useState({visible: false})
-    const modal = (<ModalOrder exit={handlerCloseModal} />)
+    const modal = (<Modal exit={handlerCloseModal}><ModalOrder/></Modal>)
 
     return (
         <section>
