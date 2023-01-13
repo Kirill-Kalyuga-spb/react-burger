@@ -1,12 +1,13 @@
 import React from "react";
 import stylesModalIngr from './ModalIngr.module.css';
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import Modal from "../Modal/Modal";
 
 export default function ModalIngr(props) {
 
     return (
         <>
-            <ModalOverlay exit={props.exit}>
+            <Modal exit={props.exit}>
                 <h2 className={`${stylesModalIngr.h2} text text_type_main-large mt-10 ml-10`}>Детали ингредиента</h2>
                 <img className={`${stylesModalIngr.img} mb-4`} src={props.data.image_large} />
                 <h3 className={`${stylesModalIngr.text} text text_type_main-medium mb-8`}>{props.data.name}</h3>
@@ -24,7 +25,7 @@ export default function ModalIngr(props) {
                     <span className="text text_type_digits-default text_color_inactive">{props.data.carbohydrates}</span>
                     </li>
                 </ul>
-            </ModalOverlay>
+            </Modal>
         </>
     )
 }

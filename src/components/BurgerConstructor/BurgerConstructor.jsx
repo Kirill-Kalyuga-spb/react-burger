@@ -57,7 +57,6 @@ export default function BurgerConstructor() {
                 <ul className={`${stylesBurgerConstr.list} ${stylesBurgerConstr.scroll} mt-4 mb-4`}>
                     {data.map((item) => {
                         if (item.type === 'main' || item.type === 'sauce') {
-                            // setSell(sell + item.price)
                             
                             return (
                                 <li key={item._id} className={`${stylesBurgerConstr.item} mb-4 mr-2`}>
@@ -86,7 +85,6 @@ export default function BurgerConstructor() {
             </div>
             <div className={`${stylesBurgerConstr.order} ml-4 mr-4 mt-10`}>
                 <p className={`${stylesBurgerConstr.p} text text_type_digits-medium pr-10`}>
-                    {/* {totalSum}  */}
                     {sell}
                     <span className={`${stylesBurgerConstr.currencyIcon} ml-4 mr-1`}>
                         <CurrencyIcon type="primary"/>

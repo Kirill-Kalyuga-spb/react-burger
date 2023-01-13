@@ -1,7 +1,6 @@
 import React from "react";
 import Modal from "../Modal/Modal";
 import stylesModalOverlay from './ModalOverlay.module.css'
-import { createPortal } from 'react-dom';
 
 export default function ModalOverlay(props) {
 
@@ -11,10 +10,7 @@ export default function ModalOverlay(props) {
         }
     }
     
-    return createPortal(
-        <div className={stylesModalOverlay.overlay} onClick={overlayClose}>
-            <Modal children={props.children} exit={props.exit} />
-        </div>,
-        document.getElementById("react-modals")
+    return (
+        <div className={stylesModalOverlay.overlay} onClick={overlayClose}></div>
     )
 }
