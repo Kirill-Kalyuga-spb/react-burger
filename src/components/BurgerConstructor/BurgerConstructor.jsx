@@ -4,25 +4,30 @@ import {
     Button,
     DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import stylesBurgerConstr from './BurgerConstructor.module.css';
 import data from '../../utils/data';
 import ModalOrder from '../ModalOrder/ModalOrder';
 
 export default function BurgerConstructor() {
-    // const [sell,setSell] = React.useState(0)
-    const getTotalSum = () => {
-        let result = 0;
-        data.forEach((item) => {
-            result += item.price;
-        });
-        result -= 988;
-        return result;
-    };
+    const [sell, setSell] = useState(null)
+    const sellBunRef = useRef(null)
+    
+    useEffect(() => {
+        const arrItems = Array.from(document.querySelector(`.${stylesBurgerConstr.list}`).querySelectorAll(`.${stylesBurgerConstr.item}`))
+        const sellItems = arrItems.reduce((acc, item) => {
+            const sellItem = item.querySelector('.constructor-element__price').textContent
+            
+            return Number(acc) +  Number(sellItem)
+        }, 0)
+       
+        setSell(Number(sellItems) + Number(sellBun()))
+    }, [])
 
-    const totalSum = React.useMemo(() => {
-        return getTotalSum();
-    }, [data]);
+    const sellBun = () => {
+        if (sellBunRef.current !== null)
+        {return sellBunRef.current.querySelector('.constructor-element__price').textContent}
+    }
 
     const handlerOpenModal = () => {
         setState({visible: true})
@@ -32,14 +37,14 @@ export default function BurgerConstructor() {
         setState({visible: false})
     }
 
-    const [state,setState] = React.useState({visible: false})
+    const [state,setState] = useState({visible: false})
     const modal = (<ModalOrder exit={handlerCloseModal} />)
 
     return (
         <section>
             <div className={`${stylesBurgerConstr.construcor} ml-4 pt-25`}>
-                
-                <div className={`pr-4`}>
+
+                <div className={`pr-4`} ref={sellBunRef}>
                     <ConstructorElement
                         type="top"
                         isLocked={true}
@@ -81,7 +86,8 @@ export default function BurgerConstructor() {
             </div>
             <div className={`${stylesBurgerConstr.order} ml-4 mr-4 mt-10`}>
                 <p className={`${stylesBurgerConstr.p} text text_type_digits-medium pr-10`}>
-                    {totalSum} 
+                    {/* {totalSum}  */}
+                    {sell}
                     <span className={`${stylesBurgerConstr.currencyIcon} ml-4 mr-1`}>
                         <CurrencyIcon type="primary"/>
                     </span>

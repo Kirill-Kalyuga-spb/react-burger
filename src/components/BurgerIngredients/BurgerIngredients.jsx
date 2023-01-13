@@ -15,7 +15,7 @@ export default function BurgerIngredients(props) {
     const handlerType = (e) => {
         setCurrent(e)
         const ref = e === 'bun' ? refBun : (e === 'main' ? refMain : refSause)
-        ref.current.scrollIntoView()
+        ref.current.scrollIntoView({ behavior: "smooth" })
     }
 
     return (
