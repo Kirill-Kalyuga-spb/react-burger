@@ -1,0 +1,13 @@
+.p {
+    justify-content: center;
+    display: flex;
+    text-align: center;
+}
+
+.p:last-child {
+    height: 48px;
+}
+
+.item {
+    position: relative;
+}
