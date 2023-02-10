@@ -13,7 +13,7 @@ export function getItems() {
                 dispatch({
                     type: GET_ITEMS_SUCCESS,
                     items: data
-                })
+                }) 
             })
             .catch(err => {
                 dispatch({

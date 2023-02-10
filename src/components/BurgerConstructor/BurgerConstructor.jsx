@@ -6,17 +6,17 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect, useRef, useState } from 'react';
 import stylesBurgerConstr from './BurgerConstructor.module.css';
-import data from '../../utils/data';
 import ModalOrder from '../ModalOrder/ModalOrder';
 import Modal from '../Modal/Modal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ADD_INGR, ADD_BUN } from '../../services/actions/cart';
 import {useDrop} from "react-dnd";
+import BurgerConstructorIngr from './BurgerConstructorIngr/BurgerConstructorIngr';
 
 export default function BurgerConstructor() {
     const [sell, setSell] = useState(null)
-    const sellBunRef = useRef(null)
     const dispatch = useDispatch()
+    const { bun, ingr } = useSelector(state => state.cart)
 
     const [{isHover}, drop] = useDrop({
         accept: "ingr",
@@ -24,29 +24,23 @@ export default function BurgerConstructor() {
             isHover: monitor.isOver()
         }),
         drop(item) {
-            if (item.info.type === 'bun') {
-                dispatch({type: ADD_BUN, ingr: item.info})
+            if (item.type === 'bun') {
+                dispatch({type: ADD_BUN, ingr: item})
             } else {
-                dispatch({type: ADD_INGR, ingr: item.info})
+                dispatch({type: ADD_INGR, ingr: item})
             }
         }
     })
+
+    const sellCounter = () => {
+        return (bun.price + ingr.reduce((acc, item) => {
+            return acc + item.price
+        },0))
+    }
     
     useEffect(() => {
-        const arrItems = Array.from(document.querySelector(`.${stylesBurgerConstr.list}`).querySelectorAll(`.${stylesBurgerConstr.item}`))
-        const sellItems = arrItems.reduce((acc, item) => {
-            const sellItem = item.querySelector('.constructor-element__price').textContent
-            
-            return Number(acc) +  Number(sellItem)
-        }, 0)
-       
-        setSell(Number(sellItems) + Number(sellBun()))
-    }, [])
-
-    const sellBun = () => {
-        if (sellBunRef.current !== null)
-        {return sellBunRef.current.querySelector('.constructor-element__price').textContent}
-    }
+        setSell(sellCounter())
+    }, [bun, ingr])
 
     const handlerOpenModal = () => {
         setState({visible: true})
@@ -63,32 +57,21 @@ export default function BurgerConstructor() {
         <section ref={drop}>
             <div className={`${stylesBurgerConstr.construcor} ml-4 pt-25`}>
 
-                <div className={`pr-4`} ref={sellBunRef}>
+                <div className={`pr-4`} >
                     <ConstructorElement
                         type="top"
                         isLocked={true}
-                        text="Краторная булка N-200i (верх)"
-                        price={1255}
-                        thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+                        text={`${bun.name} (верх)`}
+                        price={bun.price}
+                        thumbnail={bun.image}
                     />
                 </div>
                 
                 <ul className={`${stylesBurgerConstr.list} ${stylesBurgerConstr.scroll} mt-4 mb-4`}>
-                    {data.map((item) => {
-                        if (item.type === 'main' || item.type === 'sauce') {
-                            
-                            return (
-                                <li key={item._id} className={`${stylesBurgerConstr.item} mb-4 mr-2`}>
-                                    <span className={`mr-2`}>
-                                        <DragIcon type="primary" />
-                                    </span>
-                                    <ConstructorElement
-                                        text={item.name}
-                                        price={item.price}
-                                        thumbnail={item.image}
-                                    />
-                                </li>)
-                        }
+                    {ingr.map((item, i) => {
+                        return (
+                            <BurgerConstructorIngr key={i} item={item} index={i} />
+                        )
                     })}
                 </ul>
 
@@ -96,9 +79,9 @@ export default function BurgerConstructor() {
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text="Краторная булка N-200i (низ)"
-                        price={1255}
-                        thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+                        text={`${bun.name} (низ)`}
+                        price={bun.price}
+                        thumbnail={bun.image}
                     />
                 </div>
             </div>
