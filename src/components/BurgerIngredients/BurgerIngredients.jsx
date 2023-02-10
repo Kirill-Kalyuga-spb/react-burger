@@ -1,16 +1,16 @@
 import {
     Tab
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import stylesBurgerIngr from './BurgerIngredients.module.css';
 import IngrList from './IngrList/IngrList';
 
 export default function BurgerIngredients(props) {
-    const [current, setCurrent] = React.useState('bun');
+    const [current, setCurrent] = useState('bun');
 
-    const refBun = React.useRef(null)
-    const refSause = React.useRef(null)
-    const refMain = React.useRef(null)
+    const refBun = useRef(null)
+    const refSause = useRef(null)
+    const refMain = useRef(null)
 
     const handlerType = (e) => {
         setCurrent(e)
