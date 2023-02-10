@@ -3,8 +3,10 @@ import styles from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstractor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
-export default function App()  {
+function App()  {
     const [state, setState] = useState({
         isLoading: false,
         hasError: false,
@@ -18,7 +20,6 @@ export default function App()  {
     const getIngredients = async () => {
         setState({ ...state, hasError: false, isLoading: true });
         fetch('https://norma.nomoreparties.space/api/ingredients')
-            // .then(res => res.json())
             .then(res => {return checkResponse(res)})
             .then(data => setState({ ...state, data, isLoading: false }))
             .catch(e => {
@@ -37,14 +38,16 @@ export default function App()  {
     const { data, isLoading, hasError } = state;
 
     return (
-        <>
+        <div>
+            <DndProvider backend={HTML5Backend}>
             <AppHeader />
-            <main className={styles.main}>
-                <BurgerIngredients data={data.data} />
-                <BurgerConstractor />
-            </main>
-            {/* <ModalOrder/> */}
-            {/* <ModalIngr/> */}
-        </>
+                <main className={styles.main}>
+                        <BurgerIngredients data={data.data} />
+                        <BurgerConstractor />
+                </main>
+            </DndProvider>
+        </div>
     )
 }
+
+export default App

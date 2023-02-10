@@ -1,7 +1,5 @@
 import React from "react";
 import stylesModalIngr from './ModalIngr.module.css';
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import Modal from "../Modal/Modal";
 
 export default function ModalIngr(props) {
 

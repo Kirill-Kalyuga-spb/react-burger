@@ -9,10 +9,28 @@ import stylesBurgerConstr from './BurgerConstructor.module.css';
 import data from '../../utils/data';
 import ModalOrder from '../ModalOrder/ModalOrder';
 import Modal from '../Modal/Modal';
+import { useDispatch } from 'react-redux';
+import { ADD_INGR, ADD_BUN } from '../../services/actions/cart';
+import {useDrop} from "react-dnd";
 
 export default function BurgerConstructor() {
     const [sell, setSell] = useState(null)
     const sellBunRef = useRef(null)
+    const dispatch = useDispatch()
+
+    const [{isHover}, drop] = useDrop({
+        accept: "ingr",
+        collect: monitor => ({
+            isHover: monitor.isOver()
+        }),
+        drop(item) {
+            if (item.info.type === 'bun') {
+                dispatch({type: ADD_BUN, ingr: item.info})
+            } else {
+                dispatch({type: ADD_INGR, ingr: item.info})
+            }
+        }
+    })
     
     useEffect(() => {
         const arrItems = Array.from(document.querySelector(`.${stylesBurgerConstr.list}`).querySelectorAll(`.${stylesBurgerConstr.item}`))
@@ -42,7 +60,7 @@ export default function BurgerConstructor() {
     const modal = (<Modal exit={handlerCloseModal}><ModalOrder/></Modal>)
 
     return (
-        <section>
+        <section ref={drop}>
             <div className={`${stylesBurgerConstr.construcor} ml-4 pt-25`}>
 
                 <div className={`pr-4`} ref={sellBunRef}>
