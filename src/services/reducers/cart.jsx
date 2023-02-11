@@ -1,7 +1,19 @@
-import { ADD_INGR, ADD_BUN, MOVE_INGR, REMOVE_INGR } from "../actions/cart"
+import {
+    ADD_INGR,
+    ADD_BUN,
+    MOVE_INGR,
+    REMOVE_INGR,
+    POST_ORDER_REQUEST,
+    POST_ORDER_SUCCESS,
+    POST_ORDER_FAILED
+} from "../actions/cart"
 
 
 const initialState = {
+    orderId: null,
+    orderRequest: false,
+    orderFailed: false,
+
     ingr: [
         {
             "_id": "60d3b41abdacab0026a733cc",
@@ -106,6 +118,28 @@ const initialState = {
 
 export const cartReducer = (state = initialState, action) => {
     switch (action.type) {
+        case POST_ORDER_REQUEST: {
+            return {
+                ...state,
+                orderRequest: true,
+            }
+        }
+        case POST_ORDER_SUCCESS: {
+            return {
+                ...state,
+                orderId: action.orderId,
+                orderRequest: false,
+                orderFailed: false
+            }
+        }
+        case POST_ORDER_FAILED: {
+            return {
+                ...state,
+                orderRequest: false,
+                orderFailed: true
+            }
+        }
+
         case ADD_INGR: {
             return {
                 ...state,
@@ -152,9 +186,13 @@ export const cartReducer = (state = initialState, action) => {
             }
         }
         case REMOVE_INGR: {
+            const indexItem = action.item.index;
             return {
                 ...state,
-                ingr: [...state.ingr.filter(item => item._id !== action.item._id)]
+                ingr: [
+                    ...state.ingr.slice(0, indexItem),
+                    ...state.ingr.slice(indexItem + 1),
+                ]
             }
         }
         default: {

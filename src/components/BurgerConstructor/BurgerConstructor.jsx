@@ -9,12 +9,13 @@ import stylesBurgerConstr from './BurgerConstructor.module.css';
 import ModalOrder from '../ModalOrder/ModalOrder';
 import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_INGR, ADD_BUN } from '../../services/actions/cart';
+import { ADD_INGR, ADD_BUN, postOrder } from '../../services/actions/cart';
 import {useDrop} from "react-dnd";
 import BurgerConstructorIngr from './BurgerConstructorIngr/BurgerConstructorIngr';
 
 export default function BurgerConstructor() {
     const [sell, setSell] = useState(null)
+    const [order, setOrder] = useState([])
     const dispatch = useDispatch()
     const { bun, ingr } = useSelector(state => state.cart)
 
@@ -40,9 +41,13 @@ export default function BurgerConstructor() {
     
     useEffect(() => {
         setSell(sellCounter())
+        setOrder([bun, ingr].flat())
     }, [bun, ingr])
 
     const handlerOpenModal = () => {
+        dispatch(postOrder(order.map(item => {
+            return item._id
+        })))
         setState({visible: true})
     }
 

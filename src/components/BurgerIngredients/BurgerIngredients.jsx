@@ -32,6 +32,7 @@ export default function BurgerIngredients(props) {
 
     const handlerScroll = () => {
         refList.current.addEventListener('scroll', function() {
+            
             if (bunTop() < sauseTop() && bunTop() < mainTop()) {
                 setCurrent('bun')
             }

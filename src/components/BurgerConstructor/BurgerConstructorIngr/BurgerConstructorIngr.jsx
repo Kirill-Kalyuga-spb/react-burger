@@ -2,10 +2,9 @@ import {
     ConstructorElement,
     DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
-import { MOVE_INGR } from '../../../services/actions/cart';
+import { MOVE_INGR, REMOVE_INGR } from '../../../services/actions/cart';
 
 import stylesBurgerConstrIngr from './BurgerConstructorIngr.module.css';
 
@@ -27,6 +26,13 @@ export default function BurgerConstractorIngr({item, index}) {
         }
     })
 
+    const removeItem = () => {
+        dispatch({
+            type: REMOVE_INGR,
+            item: {index}
+        })
+    }
+
     return (
         <li ref={drop} index={index} className={`${stylesBurgerConstrIngr.item} mb-4 mr-2`}>
             <span ref={drag} className={`mr-2`}>
@@ -36,6 +42,7 @@ export default function BurgerConstractorIngr({item, index}) {
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
+                handleClose={() => {removeItem()}}
             />
         </li>
     )
