@@ -2,6 +2,7 @@ import {
     Tab
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect, useRef, useState } from 'react';
+import { spaceFromBlockToTop } from '../../utils/constants';
 import stylesBurgerIngr from './BurgerIngredients.module.css';
 import IngrList from './IngrList/IngrList';
 
@@ -21,13 +22,13 @@ export default function BurgerIngredients(props) {
     }
 
     const bunTop = () => {
-        return Math.abs(refBun.current.getBoundingClientRect().top - 240)
+        return Math.abs(refBun.current.getBoundingClientRect().top - spaceFromBlockToTop)
     }
     const sauseTop = () => {
-        return Math.abs(refSause.current.getBoundingClientRect().top - 240)
+        return Math.abs(refSause.current.getBoundingClientRect().top - spaceFromBlockToTop)
     }
     const mainTop = () => {
-        return Math.abs(refMain.current.getBoundingClientRect().top - 240)
+        return Math.abs(refMain.current.getBoundingClientRect().top - spaceFromBlockToTop)
     }
 
     const handlerScroll = () => {

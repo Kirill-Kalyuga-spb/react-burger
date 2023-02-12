@@ -1,10 +1,9 @@
 import {
     CurrencyIcon,
     ConstructorElement,
-    Button,
-    DragIcon
+    Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import stylesBurgerConstr from './BurgerConstructor.module.css';
 import ModalOrder from '../ModalOrder/ModalOrder';
 import Modal from '../Modal/Modal';
@@ -14,8 +13,6 @@ import {useDrop} from "react-dnd";
 import BurgerConstructorIngr from './BurgerConstructorIngr/BurgerConstructorIngr';
 
 export default function BurgerConstructor() {
-    const [sell, setSell] = useState(null)
-    const [order, setOrder] = useState([])
     const dispatch = useDispatch()
     const { bun, ingr } = useSelector(state => state.cart)
 
@@ -38,16 +35,14 @@ export default function BurgerConstructor() {
             return acc + item.price
         },0))
     }
-    
-    useEffect(() => {
-        setSell(sellCounter())
-        setOrder([bun, ingr].flat())
-    }, [bun, ingr])
+
+    const sell = useMemo(() => sellCounter(), [bun, ingr])
 
     const handlerOpenModal = () => {
-        dispatch(postOrder(order.map(item => {
-            return item._id
-        })))
+        dispatch(postOrder([bun, ingr].flat()
+            .map(item => {
+                return item._id
+            })))
         setState({visible: true})
     }
 

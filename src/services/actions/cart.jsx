@@ -1,8 +1,11 @@
+import { apiUrl } from "../../utils/constants"
+
 export const ADD_INGR = 'ADD_INGR'
 export const ADD_BUN = 'ADD_BUN'
 
 export const MOVE_INGR = 'MOVE_INGR'
 export const REMOVE_INGR = 'REMOVE_INGR'
+export const HOVER_INGR = 'HOVER_INGR'
 
 export const POST_ORDER_REQUEST = 'POST_ORDER_REQUEST'
 export const POST_ORDER_SUCCESS = 'POST_ORDER_SUCCESS'
@@ -14,7 +17,7 @@ export function postOrder(order) {
         dispatch({
             type: POST_ORDER_REQUEST
         })
-        fetch('https://norma.nomoreparties.space/api/orders', {
+        fetch(`${apiUrl}orders`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
