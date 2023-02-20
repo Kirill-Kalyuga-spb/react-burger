@@ -1,5 +1,4 @@
 import React from 'react';
-// import data from '../../../utils/data';
 import stylesIngrList from './IngrList.module.css';
 import Ingr from './Ingr/Ingr';
 

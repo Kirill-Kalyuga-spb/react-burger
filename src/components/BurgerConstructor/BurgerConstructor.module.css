@@ -22,15 +22,6 @@
     align-items: center;
 }
 
-.item {
-    display: flex;
-    align-items: center;
-}
-
-.item:last-child {
-    margin-bottom: 0;
-}
-
 .currencyIcon {
     transform: scale(1.5);
 }
