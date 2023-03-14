@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import styles from './App.module.css';
-import AppHeader from '../AppHeader/AppHeader';
-import BurgerConstractor from '../BurgerConstructor/BurgerConstructor';
-import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
+import styles from './Home.module.css';
+import AppHeader from '../components/AppHeader/AppHeader';
+import BurgerConstractor from '../components/BurgerConstructor/BurgerConstructor';
+import BurgerIngredients from '../components/BurgerIngredients/BurgerIngredients';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getItems } from '../../services/actions/itemList';
+import { getItems } from '../services/actions/itemList';
 
-function App()  {
+function HomePage()  {
     const dispatch = useDispatch()
     const {items} = useSelector(state => state.items)
 
@@ -29,4 +29,4 @@ function App()  {
     )
 }
 
-export default App
+export default HomePage
