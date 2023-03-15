@@ -2,19 +2,39 @@ import styles from './Login.module.css';
 import React, {useState} from 'react'
 import AppHeader from '../components/AppHeader/AppHeader';
 import {
-    EmailInput,
     PasswordInput,
     Button,
     Input
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import { checkResponse, apiUrl } from '../utils/constants';
 
 function ResetPassword()  {
-    const [form, setValue] = useState({ name: '', email: '', password: '' });
+    const [form, setValue] = useState({ code: '', password: '' });
+    const navigate = useNavigate()
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
       };
+  
+    const onSubmit = e => {
+        fetch(`${apiUrl}password-reset/reset`, {
+            method: 'POST',
+            body: JSON.stringify({
+                "password": form.password,
+                "token": ""
+              }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        }).then(res => { return checkResponse(res) })
+            .then(data => {
+                navigate('/login', { state: data })
+            })
+            .catch(err => {
+                console.log(`Ошибка: ${err}`)
+            });
+    }
 
     return (
         <React.StrictMode>
@@ -30,11 +50,11 @@ function ResetPassword()  {
                     />
                     <Input
                         placeholder='Введите код из письма'
-                        value={form.name}
-                        name='name'
+                        value={form.code}
+                        name='code'
                         onChange={onChange}
                     />
-                    <Button htmlType="submit" type="primary" size="medium" style={{ width: 167, alignSelf: 'center' }}>
+                    <Button onClick={onSubmit} htmlType="button" type="primary" size="medium" style={{ width: 167, alignSelf: 'center' }}>
                         Сохранить
                     </Button>
                 </form>

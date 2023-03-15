@@ -6,14 +6,26 @@ import {
     PasswordInput,
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {Link} from 'react-router-dom'
+import {Link, Navigate} from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { postLogin } from '../services/actions/auth';
 
 function Login()  {
     const [form, setValue] = useState({ email: '', password: '' });
+    const dispatch = useDispatch()
+    const {accessToken} = useSelector(state => state.auth)
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
       };
+
+    const onClick = e => {
+        dispatch(postLogin(form))
+    }
+
+    if (accessToken != '') {
+        return <Navigate to={'/'}/>
+    }
 
     return (
         <React.StrictMode>
@@ -34,7 +46,7 @@ function Login()  {
                         name={"password"}
                         onChange={onChange}
                     />
-                    <Button htmlType="submit" type="primary" size="medium" style={{ width: 128, alignSelf: 'center' }}>
+                    <Button onClick={onClick} htmlType="button" type="primary" size="medium" style={{ width: 128, alignSelf: 'center' }}>
                         Войти
                     </Button>
                 </form>

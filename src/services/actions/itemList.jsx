@@ -1,4 +1,4 @@
-import { apiUrl } from "../../utils/constants"
+import { apiUrl, checkResponse } from "../../utils/constants"
 
 export const GET_ITEMS_REQUEST = 'GET_ITEMS_REQUEST'
 export const GET_ITEMS_SUCCESS = 'GET_ITEMS_SUCCESS'
@@ -23,11 +23,4 @@ export function getItems() {
                 })
             });
     }
-}
-
-const checkResponse = (res) => {
-    if (res.ok) {
-        return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
 }

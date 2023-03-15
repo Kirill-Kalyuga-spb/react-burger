@@ -16,6 +16,7 @@
   .link {
     text-decoration: none;
     color: inherit;
+    padding: 0;
   }
 
   .list {

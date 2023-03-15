@@ -5,14 +5,34 @@ import {
     EmailInput,
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import { apiUrl, checkResponse } from '../utils/constants';
 
 function ForgotPassword()  {
     const [form, setValue] = useState({ email: '' });
+    const navigate = useNavigate()
 
     const onChange = e => {
         setValue({ ['email']: e.target.value });
       };
+
+    const onSubmit = e => {
+        fetch(`${apiUrl}password-reset`, {
+            method: 'POST',
+            body: JSON.stringify({
+                "email": form.email
+              }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        }).then(res => {return checkResponse(res)})
+        .then(data => {
+            navigate('/reset-password', {state: data})
+        })
+        .catch(err => {
+            console.log(`Ошибка: ${err}`)
+        });
+    }
 
     return (
         <React.StrictMode>
@@ -27,7 +47,7 @@ function ForgotPassword()  {
                         onChange={onChange}
                     />
                     
-                    <Button htmlType="submit" type="primary" size="medium" style={{ width: 196, alignSelf: 'center' }}>
+                    <Button onClick={onSubmit} htmlType="button" type="primary" size="medium" style={{ width: 196, alignSelf: 'center' }}>
                         Восстановить
                     </Button>
                 </form>

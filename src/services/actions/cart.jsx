@@ -1,4 +1,4 @@
-import { apiUrl } from "../../utils/constants"
+import { apiUrl, checkResponse } from "../../utils/constants"
 
 export const ADD_INGR = 'ADD_INGR'
 export const ADD_BUN = 'ADD_BUN'
@@ -39,11 +39,4 @@ export function postOrder(order) {
                 })
             });
     }
-}
-
-const checkResponse = (res) => {
-    if (res.ok) {
-        return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
 }
