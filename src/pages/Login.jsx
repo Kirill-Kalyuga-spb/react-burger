@@ -9,11 +9,13 @@ import {
 import {Link, Navigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { postLogin } from '../services/actions/auth';
+import { getCookie } from '../utils/utility-function';
 
 function Login()  {
     const [form, setValue] = useState({ email: '', password: '' });
+    const {accessToken} = useSelector(state => state.auth) //ререндерит компонент после диспатча
     const dispatch = useDispatch()
-    const {accessToken} = useSelector(state => state.auth)
+    const cookie = getCookie()
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -23,7 +25,7 @@ function Login()  {
         dispatch(postLogin(form))
     }
 
-    if (accessToken != '') {
+    if (cookie.accessToken) {
         return <Navigate to={'/'}/>
     }
 

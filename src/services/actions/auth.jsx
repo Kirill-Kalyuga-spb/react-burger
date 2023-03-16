@@ -1,4 +1,5 @@
-import { apiUrl, checkResponse } from "../../utils/constants"
+import { apiUrl, expires } from "../../utils/constants"
+import { checkResponse, setCookie } from "../../utils/utility-function"
 
 export const POST_LOGIN_REQUEST = 'POST_LOGIN_REQUEST'
 export const POST_LOGIN_SUCCESS = 'POST_LOGIN_SUCCESS'
@@ -38,9 +39,10 @@ export function postLogin(props) {
                     email: data.user.email,
                     name: data.user.name,
                     password: props.password,
-                    accessToken: data.accessToken,
-                    refreshToken: data.refreshToken,
-                }) 
+                    accessToken: data.accessToken
+                })
+                setCookie('refreshToken', data.refreshToken)
+                setCookie('accessToken', data.accessToken, {expires})
             })
             .catch(err => {
                 dispatch({
@@ -74,9 +76,10 @@ export function postRegister(props) {
                     email: data.user.email,
                     name: data.user.name,
                     password: props.password,
-                    accessToken: data.accessToken,
-                    refreshToken: data.refreshToken,
+                    accessToken: data.accessToken
                 }) 
+                setCookie('refreshToken', data.refreshToken)
+                setCookie('accessToken', data.accessToken, {expires})
             })
             .catch(err => {
                 dispatch({
@@ -105,7 +108,8 @@ export function postLogout(token) {
             .then(data => {
                 dispatch({
                     type: POST_LOGOUT_SUCCESS,
-                }) 
+                })
+                document.cookie = `accessToken=;expires=${new Date(0)}`
             })
             .catch(err => {
                 dispatch({

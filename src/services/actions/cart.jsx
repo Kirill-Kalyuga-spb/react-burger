@@ -1,4 +1,5 @@
-import { apiUrl, checkResponse } from "../../utils/constants"
+import { apiUrl } from "../../utils/constants"
+import { checkResponse } from "../../utils/utility-function"
 
 export const ADD_INGR = 'ADD_INGR'
 export const ADD_BUN = 'ADD_BUN'

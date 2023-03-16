@@ -23,8 +23,8 @@ const initialState = {
         name: "",
         password: ''
     },
-    accessToken: "",
-    refreshToken: "",
+
+    accessToken: '',
 
     registerRequest: false,
     registerFailed: false,
@@ -53,7 +53,6 @@ export const authReducer = (state = initialState, action) => {
                     password: action.password
                 },
                 accessToken: action.accessToken,
-                refreshToken: action.refreshToken,
 
                 registerRequest: false,
                 registerFailed: false
@@ -82,7 +81,6 @@ export const authReducer = (state = initialState, action) => {
                     password: action.password
                 },
                 accessToken: action.accessToken,
-                refreshToken: action.refreshToken,
 
                 loginRequest: false,
                 loginFailed: false
@@ -110,8 +108,8 @@ export const authReducer = (state = initialState, action) => {
                     name: '',
                     password: ''
                 },
-                accessToken: '',
-
+                accessToken: action.accessToken,
+                
                 logoutRequest: false,
                 logoutFailed: false
             }

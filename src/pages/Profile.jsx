@@ -1,5 +1,5 @@
 import styles from './Profile.module.css';
-import React, {useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import AppHeader from '../components/AppHeader/AppHeader';
 import {
     EmailInput,
@@ -7,15 +7,23 @@ import {
     Input,
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {Link, Navigate} from 'react-router-dom'
+import {Link, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { postLogout } from '../services/actions/auth';
+import { getCookie } from '../utils/utility-function';
+import { getProfile } from '../services/actions/profile';
 
 function Profile()  {
     const [form, setValue] = useState({ name: '', email: '', password: '' });
+    const auth = useSelector(state => state.auth) //ререндерит компонент после диспатча
+    const {user} = useSelector(state => state.profile)
     const inputRef = React.useRef(null)
     const dispatch = useDispatch()
-    const {accessToken, refreshToken} = useSelector(state => state.auth)
+    const cookie = getCookie()
+    // const [cookie, setCookie] = useState(getCookie())
+    // useEffect(() => {
+    //     setCookie(getCookie())
+    // }, [document.cookie])
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -28,10 +36,18 @@ function Profile()  {
     }
 
     const onClick = e => {
-        dispatch(postLogout(refreshToken))
+        dispatch(postLogout(cookie.refreshToken))
     }
 
-    if (accessToken == '') {
+    // console.log(cookie.accessToken)
+    // console.log(user)
+    useEffect(() => {
+        if (cookie.accessToken) {
+            dispatch(getProfile(cookie.accessToken))
+        }
+    }, [dispatch])
+    
+    if (!cookie.accessToken) {
         return <Navigate to={'/login'}/>
     }
 
@@ -55,7 +71,7 @@ function Profile()  {
                     <Input
                         placeholder='Имя'
                         type={'text'}
-                        value={form.name}
+                        value={user ? user.name : ''}
                         name='name'
                         onChange={onChange}
                         icon='EditIcon'
@@ -64,14 +80,14 @@ function Profile()  {
                     />
                     <EmailInput
                         placeholder="Логин"
-                        value={form.email}
+                        value={user ? user.email : ''}
                         name="email"
                         onChange={onChange}
                         isIcon={true}
                     />
                     <PasswordInput
                         placeholder="Пароль"
-                        value={form.password}
+                        value={'qwerty'}
                         name={"password"}
                         onChange={onChange}
                         icon="EditIcon"

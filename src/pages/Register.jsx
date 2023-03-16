@@ -10,11 +10,13 @@ import {
 import { Link, Navigate } from 'react-router-dom'
 import { postRegister } from '../services/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
+import { getCookie } from '../utils/utility-function';
 
 function Register()  {
     const [form, setValue] = useState({ name: '', email: '', password: '' });
     const dispatch = useDispatch()
-    const {accessToken} = useSelector(state => state.auth)
+    const {accessToken} = useSelector(state => state.auth) //ререндерит компонент после диспатча
+    const cookie = getCookie()
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -24,7 +26,7 @@ function Register()  {
         dispatch(postRegister(form))
     }
 
-    if (accessToken != '') {
+    if (cookie.accessToken) {
         return <Navigate to={'/'}/>
     }
 

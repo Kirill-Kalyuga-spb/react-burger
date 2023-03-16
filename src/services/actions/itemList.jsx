@@ -1,4 +1,5 @@
-import { apiUrl, checkResponse } from "../../utils/constants"
+import { apiUrl } from "../../utils/constants"
+import { checkResponse } from "../../utils/utility-function"
 
 export const GET_ITEMS_REQUEST = 'GET_ITEMS_REQUEST'
 export const GET_ITEMS_SUCCESS = 'GET_ITEMS_SUCCESS'

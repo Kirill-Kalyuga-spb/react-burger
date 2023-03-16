@@ -7,7 +7,8 @@ import {
     Input
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import {Link, useNavigate} from 'react-router-dom'
-import { checkResponse, apiUrl } from '../utils/constants';
+import { apiUrl } from '../utils/constants';
+import { checkResponse } from '../utils/utility-function';
 
 function ResetPassword()  {
     const [form, setValue] = useState({ code: '', password: '' });
