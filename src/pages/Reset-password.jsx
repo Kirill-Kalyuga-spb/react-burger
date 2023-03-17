@@ -55,7 +55,7 @@ function ResetPassword()  {
                         name='code'
                         onChange={onChange}
                     />
-                    <Button onClick={onSubmit} htmlType="button" type="primary" size="medium" style={{ width: 167, alignSelf: 'center' }}>
+                    <Button onClick={onSubmit} htmlType="button" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
                         Сохранить
                     </Button>
                 </form>

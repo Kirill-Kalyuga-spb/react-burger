@@ -17,7 +17,7 @@ function ForgotPassword()  {
         setValue({ ['email']: e.target.value });
       };
 
-    const onSubmit = e => {
+    const onClick = e => {
         fetch(`${apiUrl}password-reset`, {
             method: 'POST',
             body: JSON.stringify({
@@ -48,7 +48,7 @@ function ForgotPassword()  {
                         onChange={onChange}
                     />
                     
-                    <Button onClick={onSubmit} htmlType="button" type="primary" size="medium" style={{ width: 196, alignSelf: 'center' }}>
+                    <Button onClick={onClick} htmlType="button" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
                         Восстановить
                     </Button>
                 </form>

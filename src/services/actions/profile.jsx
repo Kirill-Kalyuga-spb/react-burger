@@ -14,7 +14,6 @@ export function getProfile(token) {
         dispatch({
             type: GET_PROFILE_REQUEST
         })
-        console.log(token)
         fetch(`${apiUrl}auth/user`, {
             method: 'GET',
             headers: {
@@ -38,18 +37,20 @@ export function getProfile(token) {
     }
 }
 
-export function patchProfile(props) {
+export function patchProfile(token, props) {
     return function(dispatch) {
         dispatch({
             type: PATCH_PROFILE_REQUEST
         })
-        fetch(`${apiUrl}auth/login`, {
+        fetch(`${apiUrl}auth/user`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + `${token}`,
               },
             body: JSON.stringify({
                 "email": props.email,
+                "name": props.name,
                 "password": props.password
             })
         })
@@ -58,8 +59,7 @@ export function patchProfile(props) {
                 dispatch({
                     type: PATCH_PROFILE_SUCCESS,
                     email: data.user.email,
-                    name: data.user.name,
-                    password: props.password
+                    name: data.user.name
                 })
             })
             .catch(err => {

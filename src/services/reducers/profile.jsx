@@ -65,7 +65,6 @@ import {
                   user: {
                       email: action.email,
                       name: action.name,
-                      password: action.password
                   },
   
                   patchRequest: false,

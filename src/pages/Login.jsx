@@ -13,9 +13,9 @@ import { getCookie } from '../utils/utility-function';
 
 function Login()  {
     const [form, setValue] = useState({ email: '', password: '' });
-    const {accessToken} = useSelector(state => state.auth) //ререндерит компонент после диспатча
+    // const {accessToken} = useSelector(state => state.auth) //ререндерит компонент после диспатча
     const dispatch = useDispatch()
-    const cookie = getCookie()
+    // const cookie = getCookie()
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -25,9 +25,9 @@ function Login()  {
         dispatch(postLogin(form))
     }
 
-    if (cookie.accessToken) {
-        return <Navigate to={'/'}/>
-    }
+    // if (cookie.accessToken) {
+    //     return <Navigate to={'/'}/>
+    // }
 
     return (
         <React.StrictMode>
@@ -48,7 +48,7 @@ function Login()  {
                         name={"password"}
                         onChange={onChange}
                     />
-                    <Button onClick={onClick} htmlType="button" type="primary" size="medium" style={{ width: 128, alignSelf: 'center' }}>
+                    <Button onClick={onClick} htmlType="button" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
                         Войти
                     </Button>
                 </form>

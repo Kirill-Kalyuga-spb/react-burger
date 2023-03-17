@@ -15,8 +15,8 @@ import { getCookie } from '../utils/utility-function';
 function Register()  {
     const [form, setValue] = useState({ name: '', email: '', password: '' });
     const dispatch = useDispatch()
-    const {accessToken} = useSelector(state => state.auth) //ререндерит компонент после диспатча
-    const cookie = getCookie()
+    // const {accessToken} = useSelector(state => state.auth) //ререндерит компонент после диспатча
+    // const cookie = getCookie()
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -26,9 +26,9 @@ function Register()  {
         dispatch(postRegister(form))
     }
 
-    if (cookie.accessToken) {
-        return <Navigate to={'/'}/>
-    }
+    // if (cookie.accessToken) {
+    //     return <Navigate to={'/'}/>
+    // }
 
     return (
         <React.StrictMode>
@@ -54,7 +54,7 @@ function Register()  {
                         name={"password"}
                         onChange={onChange}
                     />
-                    <Button onClick={onClick} htmlType="button" type="primary" size="medium" style={{ width: 253, alignSelf: 'center' }}>
+                    <Button onClick={onClick} htmlType="button" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
                         Зарегистрироваться
                     </Button>
                 </form>
