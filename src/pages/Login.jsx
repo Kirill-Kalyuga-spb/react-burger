@@ -13,9 +13,7 @@ import { getCookie } from '../utils/utility-function';
 
 function Login()  {
     const [form, setValue] = useState({ email: '', password: '' });
-    // const {accessToken} = useSelector(state => state.auth) //ререндерит компонент после диспатча
     const dispatch = useDispatch()
-    // const cookie = getCookie()
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -24,10 +22,6 @@ function Login()  {
     const onClick = e => {
         dispatch(postLogin(form))
     }
-
-    // if (cookie.accessToken) {
-    //     return <Navigate to={'/'}/>
-    // }
 
     return (
         <React.StrictMode>

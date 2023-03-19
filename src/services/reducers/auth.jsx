@@ -1,3 +1,4 @@
+import { getCookie } from "../../utils/utility-function"
 import {
   POST_LOGIN_REQUEST,
   POST_LOGIN_SUCCESS,
@@ -16,16 +17,11 @@ import {
   POST_TOKEN_FAILED
 } from "../actions/auth"
 
+const cookie = getCookie()
 
 const initialState = {
-    user: {
-        email: "",
-        name: "",
-        password: ''
-    },
-
-    accessToken: '',
-
+    logged: Boolean(cookie.accessToken),
+    
     registerRequest: false,
     registerFailed: false,
 
@@ -47,13 +43,7 @@ export const authReducer = (state = initialState, action) => {
         case POST_REGISTER_SUCCESS: {
             return {
                 ...state,
-                user: {
-                    email: action.email,
-                    name: action.name,
-                    password: action.password
-                },
-                accessToken: action.accessToken,
-
+                logged: true,
                 registerRequest: false,
                 registerFailed: false
             }
@@ -75,13 +65,7 @@ export const authReducer = (state = initialState, action) => {
         case POST_LOGIN_SUCCESS: {
             return {
                 ...state,
-                user: {
-                    email: action.email,
-                    name: action.name,
-                    password: action.password
-                },
-                accessToken: action.accessToken,
-
+                logged: true,
                 loginRequest: false,
                 loginFailed: false
             }
@@ -103,13 +87,7 @@ export const authReducer = (state = initialState, action) => {
         case POST_LOGOUT_SUCCESS: {
             return {
                 ...state,
-                user: {
-                    email: '',
-                    name: '',
-                    password: ''
-                },
-                accessToken: action.accessToken,
-                
+                logged: false,
                 logoutRequest: false,
                 logoutFailed: false
             }

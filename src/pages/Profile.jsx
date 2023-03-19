@@ -21,7 +21,6 @@ function Profile()  {
     const inputRef = React.useRef(null)
     const dispatch = useDispatch()
     const cookie = getCookie()
-    // const [cookie, setСookie] = useState(getCookie())
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -34,7 +33,6 @@ function Profile()  {
 
     const onClickExit = e => {
         dispatch(postLogout(cookie.refreshToken))
-        // setTimeout(() => setСookie(getCookie()), 1000)
     }
 
     const onClickCancel = e => {
@@ -54,10 +52,6 @@ function Profile()  {
     useEffect(() => {
         setValue({ name: user.name, email: user.email, password: '' })
     }, [user])
-    
-    // if (!cookie.accessToken) {
-    //     return <Navigate to={'/login'}/>
-    // }
 
     return (
         <React.StrictMode>

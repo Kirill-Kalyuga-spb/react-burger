@@ -1,11 +1,12 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import stylesModalIngr from './ModalIngr.module.css';
 
 export default function ModalIngr(props) {
-
+   
     return (
         <>
-            <h2 className={`${stylesModalIngr.h2} text text_type_main-large mt-10 ml-10`}>Детали ингредиента</h2>
+            <h2 className={`${stylesModalIngr.h2} text text_type_main-large mt-10 ml-10`} style={{'margin': !props.ingrPage ? '40px 0 0 40px' : '40px auto auto auto'}} >Детали ингредиента</h2>
             <img className={`${stylesModalIngr.img} mb-4`} src={props.data.image_large} />
             <h3 className={`${stylesModalIngr.text} text text_type_main-medium mb-8`}>{props.data.name}</h3>
             <ul className={`${stylesModalIngr.list} mb-15 ml-25 mr-25`} >

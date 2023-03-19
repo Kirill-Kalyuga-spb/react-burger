@@ -6,35 +6,25 @@ import {
     Button,
     Input
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {Link, useNavigate} from 'react-router-dom'
-import { apiUrl } from '../utils/constants';
-import { checkResponse } from '../utils/utility-function';
+import {Link, Navigate} from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { postNewpassword } from '../services/actions/password';
 
 function ResetPassword()  {
     const [form, setValue] = useState({ code: '', password: '' });
-    const navigate = useNavigate()
+    const {passwordSend, emailSend} = useSelector(state => state.password)
+    const dispatch = useDispatch()
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
       };
   
-    const onSubmit = e => {
-        fetch(`${apiUrl}password-reset/reset`, {
-            method: 'POST',
-            body: JSON.stringify({
-                "password": form.password,
-                "token": ""
-              }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-        }).then(res => { return checkResponse(res) })
-            .then(data => {
-                navigate('/login', { state: data })
-            })
-            .catch(err => {
-                console.log(`Ошибка: ${err}`)
-            });
+    const onClick = e => {
+        dispatch(postNewpassword(form))
+    }
+
+    if (passwordSend || !emailSend) {
+        return <Navigate to='/' replace />
     }
 
     return (
@@ -55,7 +45,7 @@ function ResetPassword()  {
                         name='code'
                         onChange={onChange}
                     />
-                    <Button onClick={onSubmit} htmlType="button" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
+                    <Button onClick={onClick} htmlType="button" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
                         Сохранить
                     </Button>
                 </form>
