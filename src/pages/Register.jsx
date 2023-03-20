@@ -15,26 +15,21 @@ import { getCookie } from '../utils/utility-function';
 function Register()  {
     const [form, setValue] = useState({ name: '', email: '', password: '' });
     const dispatch = useDispatch()
-    // const {accessToken} = useSelector(state => state.auth) //ререндерит компонент после диспатча
-    // const cookie = getCookie()
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
       };
 
-    const onClick = e => {
+    const onSubmit = e => {
+        e.preventDefault();
         dispatch(postRegister(form))
     }
-
-    // if (cookie.accessToken) {
-    //     return <Navigate to={'/'}/>
-    // }
 
     return (
         <React.StrictMode>
             <AppHeader />
             <div className={styles.container}>
-                <form className={styles.form}>
+                <form className={styles.form} onSubmit={onSubmit}>
                     <h1 className={`${styles.heading} text text_type_main-medium`}>Регистрация</h1>
                     <Input
                         placeholder='Имя'
@@ -54,7 +49,7 @@ function Register()  {
                         name={"password"}
                         onChange={onChange}
                     />
-                    <Button onClick={onClick} htmlType="button" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
+                    <Button htmlType="submit" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
                         Зарегистрироваться
                     </Button>
                 </form>

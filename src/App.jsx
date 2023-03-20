@@ -18,7 +18,7 @@ export default function App() {
   const location = useLocation()
   const otherPath = location.state && location.state.otherPath;
   const dispatch = useDispatch()
-  const {items} = useSelector(state => state.items)
+  const { items } = useSelector(state => state.items)
 
   useEffect(() => {
     if (!items.length) { dispatch(getItems()) }
@@ -27,38 +27,41 @@ export default function App() {
   return (
     <>
       {!otherPath &&
-      <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Routes>
+          <Route path="/" element={<HomePage data={items.data} />} />
 
-        <Route path="/login" element={<ProtectedRouteElement
-          accessLevel={onlyGuest}
-          element={<Login />} />} />
-        <Route path="/register" element={<ProtectedRouteElement
-          accessLevel={onlyGuest}
-          element={<Register />} />} />
-        <Route path="/forgot-password" element={<ProtectedRouteElement
-          accessLevel={onlyGuest}
-          element={<ForgotPassword />} />} />
-        <Route path="/reset-password" element={<ProtectedRouteElement
-          accessLevel={onlyGuest}
-          element={<ResetPassword />} />} />
+          <Route path="/login" element={<ProtectedRouteElement
+            accessLevel={onlyGuest}
+            element={<Login />} />} />
+          <Route path="/register" element={<ProtectedRouteElement
+            accessLevel={onlyGuest}
+            element={<Register />} />} />
+          <Route path="/forgot-password" element={<ProtectedRouteElement
+            accessLevel={onlyGuest}
+            element={<ForgotPassword />} />} />
+          <Route path="/reset-password" element={<ProtectedRouteElement
+            accessLevel={onlyGuest}
+            element={<ResetPassword />} />} />
 
-        <Route path="/profile" element={<ProtectedRouteElement
-          accessLevel={onlyAuth}
-          element={<Profile />} />} />
+          <Route path="/profile" element={<ProtectedRouteElement
+            accessLevel={onlyAuth}
+            element={<Profile />} />} />
+          {/* <Route path="/profile/orders" element={<ProtectedRouteElement
+            accessLevel={onlyAuth}
+            element={<Profile />} />} /> */}
 
-        <Route path="/ingredients/:id" element={<HomePage />} />
-        <Route path="*" element={<NotFound404 />} />
-      </Routes>}
+          <Route path="/ingredients/:id" element={<HomePage data={items.data} />} />
+          <Route path="*" element={<NotFound404 />} />
+        </Routes>}
       {items.success && otherPath &&
         <Routes>
           <Route path="/ingredients/:id" element={
             <>
-            <AppHeader />
-            <IngredientDescription data={items.data} />
+              <AppHeader />
+              <IngredientDescription data={items.data} />
             </>
-            } />
+          } />
         </Routes>}
-      </>
+    </>
   );
-  }
+}

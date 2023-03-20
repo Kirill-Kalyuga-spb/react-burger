@@ -18,7 +18,8 @@ function ForgotPassword()  {
         setValue({ ['email']: e.target.value });
       };
 
-    const onClick = e => {
+    const onSubmit = e => {
+        e.preventDefault();
         dispatch(postEmail(form.email))
     }
 
@@ -30,7 +31,7 @@ function ForgotPassword()  {
         <React.StrictMode>
             <AppHeader />
             <div className={styles.container}>
-                <form className={styles.form}>
+                <form className={styles.form} onSubmit={onSubmit}>
                     <h1 className={`${styles.heading} text text_type_main-medium`}>Восстановление пароля</h1>
 
                     <EmailInput
@@ -39,7 +40,7 @@ function ForgotPassword()  {
                         onChange={onChange}
                     />
                     
-                    <Button onClick={onClick} htmlType="button" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
+                    <Button htmlType="submit" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
                         Восстановить
                     </Button>
                 </form>

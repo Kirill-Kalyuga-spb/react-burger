@@ -136,9 +136,9 @@ export function postToken(token) {
         })
             .then(res => {return checkResponse(res)})
             .then(data => {
+                setCookie('accessToken', data.accessToken, {expires})
                 dispatch({
-                    type: POST_TOKEN_SUCCESS,
-                    orderId: data.order.number
+                    type: POST_TOKEN_SUCCESS
                 }) 
             })
             .catch(err => {

@@ -57,6 +57,7 @@ import {
               return {
                   ...state,
                   patchRequest: true,
+                  patchFailed: false
               }
           }
           case PATCH_PROFILE_SUCCESS: {

@@ -30,6 +30,9 @@ const initialState = {
 
     logoutRequest: false,
     logoutFailed: false,
+
+    tokenRequest: false,
+    tokenFailed: false,
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -97,6 +100,28 @@ export const authReducer = (state = initialState, action) => {
                 ...state,
                 logoutRequest: false,
                 logoutFailed: true
+            }
+        }
+
+        case POST_TOKEN_REQUEST: {
+            return {
+                ...state,
+                tokenRequest: true,
+            }
+        }
+        case POST_TOKEN_SUCCESS: {
+            return {
+                ...state,
+                logged: true,
+                tokenRequest: false,
+                tokenFailed: false
+            }
+        }
+        case POST_TOKEN_FAILED: {
+            return {
+                ...state,
+                tokenRequest: false,
+                tokenFailed: true
             }
         }
 
