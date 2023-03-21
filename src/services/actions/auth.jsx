@@ -1,5 +1,5 @@
 import { apiUrl, expires } from "../../utils/constants"
-import { checkResponse, setCookie } from "../../utils/utility-function"
+import { checkResponse, getCookie, setCookie } from "../../utils/utility-function"
 
 export const POST_LOGIN_REQUEST = 'POST_LOGIN_REQUEST'
 export const POST_LOGIN_SUCCESS = 'POST_LOGIN_SUCCESS'
@@ -119,8 +119,7 @@ export function postLogout(token) {
     }
 }
 
-export function postToken(token) {
-    
+export function postToken(props) {
     return function(dispatch) {
         dispatch({
             type: POST_TOKEN_REQUEST
@@ -131,7 +130,7 @@ export function postToken(token) {
                 'Content-Type': 'application/json'
               },
             body: JSON.stringify({
-                "token": token
+                "token": props.token.refreshToken
             })
         })
             .then(res => {return checkResponse(res)})
@@ -140,6 +139,11 @@ export function postToken(token) {
                 dispatch({
                     type: POST_TOKEN_SUCCESS
                 }) 
+            })
+            .then(data => {
+                if(props.fetch && props.data) {
+                    dispatch(props.fetch(getCookie(), props.data))
+                }
             })
             .catch(err => {
                 dispatch({

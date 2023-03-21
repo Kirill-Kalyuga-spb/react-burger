@@ -43,16 +43,10 @@ function Profile() {
     }
 
     const onSubmit = e => {
-        if (e) e.preventDefault();
-        dispatch(patchProfile(cookie.accessToken, form))
-    }
-
-    useEffect(() => {
-        if (patchFailed) {
-            dispatch(postToken(cookie.refreshToken))
-            setTimeout(onSubmit, 3000)
+            e.preventDefault();
+            
+            dispatch(patchProfile(cookie, form))
         }
-    }, [patchFailed])
 
     useEffect(() => {
         if (cookie.accessToken) {

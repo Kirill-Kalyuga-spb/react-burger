@@ -1,5 +1,7 @@
+import { useDispatch } from "react-redux"
 import { apiUrl } from "../../utils/constants"
 import { checkResponse } from "../../utils/utility-function"
+import { postToken } from "./auth"
 
 export const GET_PROFILE_REQUEST = 'GET_PROFILE_REQUEST'
 export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS'
@@ -37,7 +39,7 @@ export function getProfile(token) {
     }
 }
 
-export function patchProfile(token, props) {
+export function patchProfile(token, data) {
     return function(dispatch) {
         dispatch({
             type: PATCH_PROFILE_REQUEST
@@ -46,12 +48,12 @@ export function patchProfile(token, props) {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + `${token}`,
+                'Authorization': 'Bearer ' + `${token.accessToken}`,
               },
             body: JSON.stringify({
-                "email": props.email,
-                "name": props.name,
-                "password": props.password
+                "email": data.email,
+                "name": data.name,
+                "password": data.password
             })
         })
             .then(res => {return checkResponse(res)})
@@ -63,9 +65,13 @@ export function patchProfile(token, props) {
                 })
             })
             .catch(err => {
+                if(err.split('Ошибка: ')[1]) {
+                    dispatch(postToken({fetch: patchProfile, token, data}))
+                } else {
                 dispatch({
                     type: PATCH_PROFILE_FAILED,
                 })
+            }
             });
     }
 }
