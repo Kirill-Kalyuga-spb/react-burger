@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './components/App/App';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { compose, applyMiddleware, createStore } from 'redux';
@@ -9,6 +9,7 @@ import { compose, applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers';
 import thunk from 'redux-thunk';
+import { BrowserRouter } from 'react-router-dom';
 
 declare global {
     interface Window {
@@ -26,9 +27,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <BrowserRouter>
     <Provider store={store}>
       <App />
     </Provider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

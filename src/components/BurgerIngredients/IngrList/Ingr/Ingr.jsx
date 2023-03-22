@@ -2,17 +2,22 @@ import {
     Counter,
     CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
 import Modal from '../../../Modal/Modal';
 import ModalIngr from '../../../ModalIngr/ModalIngr';
 import stylesIngr from './Ingr.module.css';
 import PropTypes from "prop-types";
+import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 export default function Ingr({data}) {
+    const { id } = useParams();
+    const [state, setState] = useState({visible: Boolean(id == data._id && id != undefined ) })
     const {ingr, bun} = useSelector(state => state.cart)
-   
+    const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate()
+    
     const count = useMemo(() => {
         return [ingr, bun].flat().filter(item => item._id === data._id).length
     }, [ingr, bun])
@@ -33,16 +38,23 @@ export default function Ingr({data}) {
         setState({visible: false})
     }
 
-    const [state,setState] = React.useState({visible: false})
     const modal = (<Modal exit={handlerCloseModal} ><ModalIngr data={data} /></Modal>)
 
+    useEffect(() => {
+        if (!state.visible && id == data._id) {
+            navigate('/')
+        }    
+    }, [state])
+    
     return (
         <>
         <li ref={drag} className={`${stylesIngr.item} mt-6`} onClick={handlerOpenModal} >
+            <Link className={stylesIngr.link}  to={'/ingredients/' + `${data._id}`}>
             <img src={data.image} alt={data.name} className='pl-4'/>
             {count != 0 && <Counter count={count} size="default" extraClass="m-1" />}
             <p className={`${stylesIngr.p} text text_type_digits-default mt-1`}>{data.price}<span className='ml-1'><CurrencyIcon type="primary"/></span></p>
             <p className={`${stylesIngr.p} text text_type_main-default mt-1`}>{data.name}</p>
+            </Link>
         </li>
         {state.visible && modal}
         </>

@@ -11,3 +11,8 @@
 .item {
     position: relative;
 }
+
+.link {
+    color: inherit;
+    text-decoration: none;
+}

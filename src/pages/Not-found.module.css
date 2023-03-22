@@ -1,0 +1,16 @@
+
+  .container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
+  
+  .content {
+    margin: auto;
+  }
+  
+  .link {
+    text-decoration-line: none;
+    color: rgb(10, 214, 10);
+  }
