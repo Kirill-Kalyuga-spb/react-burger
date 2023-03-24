@@ -13,6 +13,8 @@ import { getItems } from './services/actions/itemList';
 import {useEffect, useState} from 'react'
 import IngredientDescription from './pages/Ingredient-discription';
 import AppHeader from './components/AppHeader/AppHeader';
+import Orders from './pages/Orders';
+import OrderInfo from './pages/OrderInfo';
 
 export default function App() {
   const location = useLocation()
@@ -46,9 +48,15 @@ export default function App() {
           <Route path="/profile" element={<ProtectedRouteElement
             accessLevel={onlyAuth}
             element={<Profile />} />} />
-          {/* <Route path="/profile/orders" element={<ProtectedRouteElement
+          <Route path="/profile/orders" element={<ProtectedRouteElement
             accessLevel={onlyAuth}
-            element={<Profile />} />} /> */}
+            element={<Orders />} />} />
+          <Route path="/profile/orders/:id" element={<ProtectedRouteElement
+            accessLevel={onlyAuth}
+            element={<OrderInfo />} />} />
+
+          <Route path="/feed" element={<HomePage data={items.data} />} />
+          <Route path="/feed/:id" element={<HomePage data={items.data} />} />
 
           <Route path="/ingredients/:id" element={<HomePage data={items.data} />} />
           <Route path="*" element={<NotFound404 />} />

@@ -7,23 +7,19 @@ import {
     Input,
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { postLogout, postToken } from '../services/actions/auth';
 import { getCookie } from '../utils/utility-function';
 import { getProfile, patchProfile } from '../services/actions/profile';
+import NavProfile from '../components/NavProfile/NavProfile';
 
 function Profile() {
     const { user } = useSelector(state => state.profile)
     const [form, setValue] = useState({ name: user.name, email: user.email, password: '' });
     const [dis, setDis] = useState(true)
-    const auth = useSelector(state => state.auth) //ререндерит компонент после диспатча
-    const {patchFailed} = useSelector(state => state.profile)
     const {logged} = useSelector(state => state.auth)
     const inputRef = React.useRef(null)
     const dispatch = useDispatch()
     const cookie = getCookie()
-    const location = useLocation()
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
@@ -32,10 +28,6 @@ function Profile() {
     const onIconClick = e => {
         setDis(false)
         setTimeout(() => inputRef.current.focus(), 0)
-    }
-
-    const onClickExit = e => {
-        dispatch(postLogout(cookie.refreshToken))
     }
 
     const onClickCancel = e => {
@@ -62,18 +54,7 @@ function Profile() {
         <React.StrictMode>
             <AppHeader />
             <div className={styles.container}>
-                <nav className={styles.nav}>
-                    <ul className={styles.list}>
-                        <li className={styles.listItem}><Link className={styles.link} to='/profile'><p className={`text_type_main-medium ` + ((location.pathname == '/profile') ? null : 'text_color_inactive')}>Профиль</p></Link></li>
-                        <li className={styles.listItem}><Link className={styles.link} to='/profile/orders'><p className={`text_type_main-medium ` + ((location.pathname == '/profile/orders') ? null : 'text_color_inactive')}>История заказов</p></Link></li>
-                        <li className={styles.listItem}>
-                            <Button onClick={onClickExit} htmlType="button" type="secondary" extraClass={styles.link}>
-                                <p className={`text_type_main-medium text_color_inactive`}>Выход</p>
-                            </Button>
-                        </li>
-                    </ul>
-                    <p className={`${styles.p} text text_type_main-default text_color_inactive`}>В этом разделе вы можете изменить свои персональные данные</p>
-                </nav>
+                <NavProfile/>
                 <form className={styles.form} onSubmit={onSubmit}>
                     <Input
                         placeholder='Имя'
