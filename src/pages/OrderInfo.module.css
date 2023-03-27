@@ -24,7 +24,8 @@
 }
 
 .p {
-    width: 414px;
+    display: flex;
+    flex-grow: 1;
 }
 
 .div {
@@ -53,6 +54,7 @@
     list-style: none;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .listItem:first-child {

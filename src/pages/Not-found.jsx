@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from './Not-found.module.css';
 
 
-export function NotFound404() {
+export default function NotFound404() {
 
   return (
     

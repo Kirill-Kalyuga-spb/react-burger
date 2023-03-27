@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers';
 import thunk from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
+import { socketMiddleware } from './services/middleware/wsMiddleware';
 
 declare global {
     interface Window {
@@ -18,7 +19,7 @@ declare global {
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware()));
 const store = createStore(rootReducer, enhancer); 
 
 

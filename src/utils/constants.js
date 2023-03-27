@@ -7,3 +7,5 @@ export const cookie = getCookie()
 
 export const onlyAuth = 'auth'
 export const onlyGuest = 'guest'
+
+export const wsUrl = 'wss://norma.nomoreparties.space/orders'

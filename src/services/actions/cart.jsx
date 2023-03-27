@@ -13,7 +13,7 @@ export const POST_ORDER_SUCCESS = 'POST_ORDER_SUCCESS'
 export const POST_ORDER_FAILED = 'POST_ORDER_FAILED'
 
 export function postOrder(order) {
-    
+
     return function(dispatch) {
         dispatch({
             type: POST_ORDER_REQUEST

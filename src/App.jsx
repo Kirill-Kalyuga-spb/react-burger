@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import HomePage from './pages/Home'
-import { NotFound404 } from './pages/Not-found';
+import NotFound404 from './pages/Not-found';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/Forgot-password';
@@ -15,6 +15,7 @@ import IngredientDescription from './pages/Ingredient-discription';
 import AppHeader from './components/AppHeader/AppHeader';
 import Orders from './pages/Orders';
 import OrderInfo from './pages/OrderInfo';
+import Feed from './pages/Feed';
 
 export default function App() {
   const location = useLocation()
@@ -55,8 +56,8 @@ export default function App() {
             accessLevel={onlyAuth}
             element={<OrderInfo />} />} />
 
-          <Route path="/feed" element={<HomePage data={items.data} />} />
-          <Route path="/feed/:id" element={<HomePage data={items.data} />} />
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/feed/:id" element={<OrderInfo />} />
 
           <Route path="/ingredients/:id" element={<HomePage data={items.data} />} />
           <Route path="*" element={<NotFound404 />} />
