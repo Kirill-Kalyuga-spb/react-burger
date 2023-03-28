@@ -41,3 +41,30 @@
     color: inherit;
     text-decoration: none;
 }
+
+.div1 {
+    display: flex;
+}
+
+.rel {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    display: flex;
+}
+
+.cover {
+    position: absolute;
+    top: 0px;
+    left: -16px;
+    z-index: 999;
+    background: #1C1C21;
+    opacity: 0.6;
+    border-radius: 100px;
+    border: 2px solid black;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

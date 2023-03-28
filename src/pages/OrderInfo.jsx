@@ -10,7 +10,7 @@ function OrderInfo() {
     const {id} = useParams()
     const dispatch = useDispatch()
     const path = useLocation().pathname
-    const _id = path.split('/profile/orders/')[1]
+    const _id = path.split('/profile/orders/')[1] || path.split('/feed/')[1]
 
     const {orders} = useSelector(state => state.orders)
     
