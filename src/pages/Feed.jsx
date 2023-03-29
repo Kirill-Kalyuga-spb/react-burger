@@ -9,7 +9,6 @@ function Feed() {
     const {logged} = useSelector(state => state.auth)
     const orders = useSelector(state => state.orders)
     const dispatch = useDispatch()
-    const ref = useRef()
 
     const done = orders.orders.filter((order) => order.status == 'done')
     const created = orders.orders.filter((order) => order.status =='created')
@@ -39,7 +38,7 @@ function Feed() {
                     <OrderList />
                     <div>
                         <div className={styles.div}>
-                            <div ref={ref} className={styles.div1 + ' mr-9'}>
+                            <div className={styles.div1 + ' mr-9'}>
                                 <h3 className='text text_type_main-medium mb-6'>Готовы:</h3>
                                 <div className={styles.listContainer + " " + styles.scroll}>
                                     {arrDone.map((arr, index) => (<ul key={index} className={styles.list}>

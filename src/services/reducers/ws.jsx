@@ -1,5 +1,4 @@
 import {
-    WS_USER_NAME_UPDATE,
     WS_CONNECTION_SUCCESS,
     WS_CONNECTION_ERROR,
     WS_CONNECTION_CLOSED,
@@ -39,14 +38,6 @@ import {
           total: action.payload.total,
           totalToday: action.payload.totalToday,
           orders: action.payload.orders
-        //   state.orders.length
-        //     ? [...state.orders, { ...action.payload.orders, timestamp: new Date().getTime() / 1000 }]
-        //     : [{ ...action.payload.orders, timestamp: new Date().getTime() / 1000 }]
-        };
-      case WS_USER_NAME_UPDATE:
-        return {
-          ...state,
-          user: action.payload
         };
   
       default:

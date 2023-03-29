@@ -14,6 +14,7 @@ const initialState = {
     orderId: null,
     orderRequest: false,
     orderFailed: false,
+    orderSuccess: false,
 
     ingr: [],
     bun: {
@@ -38,6 +39,8 @@ export const cartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 orderRequest: true,
+                orderSuccess: false,
+                orderFailed: false
             }
         }
         case POST_ORDER_SUCCESS: {
@@ -45,7 +48,7 @@ export const cartReducer = (state = initialState, action) => {
                 ...state,
                 orderId: action.orderId,
                 orderRequest: false,
-                orderFailed: false
+                orderSuccess: true
             }
         }
         case POST_ORDER_FAILED: {

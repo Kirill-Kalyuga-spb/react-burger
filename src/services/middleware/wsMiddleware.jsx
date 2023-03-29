@@ -5,12 +5,10 @@ import {
     WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
     WS_GET_ORDERS,
-    WS_SEND_MESSAGE
   } from '../actions/ws';
   
   const wsActions = {
     wsInit: WS_CONNECTION_START,
-    wsSendMessage: WS_SEND_MESSAGE,
     onOpen: WS_CONNECTION_SUCCESS,
     onClose: WS_CONNECTION_CLOSED,
     onError: WS_CONNECTION_ERROR,
@@ -24,10 +22,14 @@ export const socketMiddleware = () => {
       return next => action => {
         const { dispatch } = store;
         const { type, payload } = action;
-        const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
+        const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
         
-        if (type === wsInit) {
+        if (type === wsInit && !payload) {
           socket = new WebSocket(`${wsUrl}/all`);
+        }
+
+        if (type === wsInit && payload) {
+          socket = new WebSocket(`${wsUrl}?token=${payload}`);
         }
 
         if (socket) {
@@ -43,7 +45,6 @@ export const socketMiddleware = () => {
             const { data } = event;
             const parsedData = JSON.parse(data);
             const { success, ...restParsedData } = parsedData;
-            // console.log(parsedData)
             
             dispatch({ type: onMessage, payload: restParsedData });
           };
@@ -51,11 +52,6 @@ export const socketMiddleware = () => {
           socket.onclose = event => {
             dispatch({ type: onClose, payload: event });
           };
-  
-          if (type === wsSendMessage) {
-            const message = { ...payload };
-            socket.send(JSON.stringify(message));
-          }
         }
   
         next(action);

@@ -12,12 +12,14 @@ import { ADD_INGR, ADD_BUN, postOrder } from '../../services/actions/cart';
 import {useDrop} from "react-dnd";
 import BurgerConstructorIngr from './BurgerConstructorIngr/BurgerConstructorIngr';
 import { useNavigate } from 'react-router-dom';
+import { getCookie } from '../../utils/utility-function';
 
 export default function BurgerConstructor() {
     const dispatch = useDispatch()
     const { bun, ingr } = useSelector(state => state.cart)
     const {logged} = useSelector(state => state.auth)
     const navigate = useNavigate()
+    const cookie = getCookie()
 
     const [{isHover}, drop] = useDrop({
         accept: "ingr",
@@ -42,12 +44,12 @@ export default function BurgerConstructor() {
     const sell = useMemo(() => sellCounter(), [bun, ingr])
 
     const handlerOpenModal = () => {
-        if (!logged) {navigate('/login')}
+        if (!cookie.accessToken) {navigate('/login')}
         else {
         dispatch(postOrder([bun, ingr].flat()
             .map(item => {
                 return item._id
-            })))
+            }), cookie))
         setState({visible: true})
         }
     }

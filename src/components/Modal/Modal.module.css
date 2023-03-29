@@ -20,3 +20,13 @@
     top: 0;
     right: 0;
 }
+
+.p {
+    display: flex;
+    margin: auto;
+    /* align-self: center;
+    vertical-align: middle;
+    justify-content: center;
+    justify-self: center;
+    justify-items: center; */
+}

@@ -9,14 +9,13 @@ export default function OrderListItem ({data}) {
     const path = useLocation().pathname.split('/')[1]
     const color = status == 'created' ? 'white' : status == 'done' ? '#00CCCC' : 'red'
     const word = status == 'created' ? 'Готовится' : status == 'done' ? 'Выполнен' : 'Отменён'
-
-    const ingr = ingredients.map((id) => (
+   
+    const ingrsData = ingredients.map((id) => (
         items.find(item => item._id == id)
-    ))
-    const price = ingr.reduce((acc, item) => (
-        acc += item.price
-    ), 0)
-    const dataImg = ingr.map((ingr) => (
+    )).filter((item) => item !== undefined)
+  
+    const prices = ingrsData.reduce((acc, item) => (acc += item.price), 0) 
+    const dataImg = ingrsData.map((ingr) => (
         ingr.image
     ))
 
@@ -44,7 +43,7 @@ export default function OrderListItem ({data}) {
                         })}
                 </div>
                 <div className={styles.divPrice}>
-                    <p className={`${styles.p} text text_type_digits-default mr-2`}>{price} </p>
+                    <p className={`${styles.p} text text_type_digits-default mr-2`}>{prices} </p>
                     <CurrencyIcon type="primary" />
                 </div>
             </div>

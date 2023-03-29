@@ -12,7 +12,7 @@ export const POST_ORDER_REQUEST = 'POST_ORDER_REQUEST'
 export const POST_ORDER_SUCCESS = 'POST_ORDER_SUCCESS'
 export const POST_ORDER_FAILED = 'POST_ORDER_FAILED'
 
-export function postOrder(order) {
+export function postOrder(order, token) {
 
     return function(dispatch) {
         dispatch({
@@ -21,7 +21,8 @@ export function postOrder(order) {
         fetch(`${apiUrl}orders`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + `${token.accessToken}`
               },
             body: JSON.stringify({
                 "ingredients": order
@@ -35,6 +36,7 @@ export function postOrder(order) {
                 }) 
             })
             .catch(err => {
+                console.error(err)
                 dispatch({
                     type: POST_ORDER_FAILED,
                 })

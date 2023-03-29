@@ -5,15 +5,15 @@ import { getCookie } from '../utils/utility-function';
 
 export const ProtectedRouteElement = ({ element, accessLevel }) => {
   const {logged} = useSelector(state => state.auth)
-  // const cookie = getCookie()
+  const accessToken = getCookie().accessToken
   const location = useLocation()
 
   if (accessLevel == onlyAuth) {
-    return logged ? element : <Navigate to="/login" state={location} />;
+    return accessToken ? element : <Navigate to="/login" state={location} />;
   }
 
   if (accessLevel == onlyGuest) {
-    return !logged ? element 
+    return !accessToken ? element 
       : <Navigate to={location.state ? location.state.pathname : '/'} replace />;
   }
 }
