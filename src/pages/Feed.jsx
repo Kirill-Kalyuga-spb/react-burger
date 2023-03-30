@@ -1,6 +1,5 @@
 import styles from './Feed.module.css';
-import React, {useEffect, useRef, useState} from 'react'
-import AppHeader from '../components/AppHeader/AppHeader';
+import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import OrderList from '../components/OrderList/OrderList';
 import { WS_CONNECTION_START } from '../services/actions/ws';
@@ -30,8 +29,6 @@ function Feed() {
     }, [dispatch])
 
     return (
-        <React.StrictMode>
-            <AppHeader />
             <section className={styles.section + ' mt-10'}>
                 <h2  className="text text_type_main-large">Лента заказов</h2>
                 <div className={styles.container + ' mt-5'}>
@@ -66,7 +63,6 @@ function Feed() {
                     </div>
                 </div>
             </section>
-        </React.StrictMode>
     )
 }
 

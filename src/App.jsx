@@ -29,6 +29,7 @@ export default function App() {
 
   return (
     <>
+      <AppHeader/>
       {!otherPath &&
         <Routes>
           <Route path="/" element={<HomePage data={items.data} />} />
@@ -60,15 +61,13 @@ export default function App() {
           <Route path="/feed/:id" element={<OrderInfo />} />
 
           <Route path="/ingredients/:id" element={<HomePage data={items.data} />} />
+
           <Route path="*" element={<NotFound404 />} />
         </Routes>}
       {items.success && otherPath &&
         <Routes>
           <Route path="/ingredients/:id" element={
-            <>
-              <AppHeader />
-              <IngredientDescription data={items.data} />
-            </>
+            <IngredientDescription data={items.data} />
           } />
         </Routes>}
     </>

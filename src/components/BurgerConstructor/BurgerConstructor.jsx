@@ -36,12 +36,12 @@ export default function BurgerConstructor() {
     })
 
     const sellCounter = () => {
-        return (bun.price + ingr.reduce((acc, item) => {
+        return ((bun.price || 0) + ingr.reduce((acc, item) => {
             return acc + item.price
         },0))
     }
 
-    const sell = useMemo(() => sellCounter(), [bun, ingr])
+    const sell = useMemo(() => sellCounter(), [bun, ingr]) || 0
 
     const handlerOpenModal = () => {
         if (!cookie.accessToken) {navigate('/login')}
@@ -60,12 +60,13 @@ export default function BurgerConstructor() {
 
     const [state,setState] = useState({visible: false})
     const modal = (<Modal exit={handlerCloseModal}><ModalOrder/></Modal>)
-
+    
     return (
-        <section ref={drop}>
+        <section className={stylesBurgerConstr.section} ref={drop}>
             <div className={`${stylesBurgerConstr.construcor} ml-4 pt-25`}>
-
-                <div className={`pr-4`} >
+              {(Object.keys(bun).length != 0 || ingr.length != 0) ?
+                (Object.keys(bun).length != 0) && 
+                (<div className={`pr-4`} >
                     <ConstructorElement
                         type="top"
                         isLocked={true}
@@ -73,9 +74,11 @@ export default function BurgerConstructor() {
                         price={bun.price}
                         thumbnail={bun.image}
                     />
-                </div>
+                </div>)
+                 : (<p className={stylesBurgerConstr.text + ' text text_type_main-medium mt-10'}>Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа</p>)}
                 
-                <ul className={`${stylesBurgerConstr.list} ${stylesBurgerConstr.scroll} mt-4 mb-4`}>
+                
+                <ul className={`${stylesBurgerConstr.list} ${stylesBurgerConstr.scroll} mt-4 mb-4 ${ingr.length >= 6 ? "pr-2" : "pr-4"}`}>
                     {ingr.map((item, i) => {
                         return (
                             <BurgerConstructorIngr key={i} item={item} index={i} />
@@ -83,7 +86,7 @@ export default function BurgerConstructor() {
                     })}
                 </ul>
 
-                <div className={`pr-4`}>
+                {(Object.keys(bun).length != 0) && (<div className={`pr-4`}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
@@ -91,7 +94,8 @@ export default function BurgerConstructor() {
                         price={bun.price}
                         thumbnail={bun.image}
                     />
-                </div>
+                </div>)}
+                
             </div>
             <div className={`${stylesBurgerConstr.order} ml-4 mr-4 mt-10`}>
                 <p className={`${stylesBurgerConstr.p} text text_type_digits-medium pr-10`}>

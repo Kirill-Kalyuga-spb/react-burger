@@ -44,7 +44,7 @@ export default function BurgerConstractorIngr({item, index}) {
     drag(drop(ref))
 
     return (
-        <li ref={ref} index={index} style={{opacity}} className={`${stylesBurgerConstrIngr.item} mb-4 mr-2`}>
+        <li ref={ref} index={index} style={{opacity}} className={`${stylesBurgerConstrIngr.item} mb-4`}>
             <span className={`mr-2`}>
                 <DragIcon type="primary" />
             </span>

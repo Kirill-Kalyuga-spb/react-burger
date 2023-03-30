@@ -1,6 +1,5 @@
 import styles from './Profile.module.css';
 import React, { useEffect, useState } from 'react'
-import AppHeader from '../components/AppHeader/AppHeader';
 import {
     EmailInput,
     PasswordInput,
@@ -51,49 +50,46 @@ function Profile() {
     }, [user])
 
     return (
-        <React.StrictMode>
-            <AppHeader />
-            <div className={styles.container}>
-                <NavProfile/>
-                <form className={styles.form} onSubmit={onSubmit}>
-                    <Input
-                        placeholder='Имя'
-                        type={'text'}
-                        value={user ? form.name : ''}
-                        name='name'
-                        onChange={onChange}
-                        icon='EditIcon'
-                        onIconClick={onIconClick}
-                        ref={inputRef}
-                        disabled={dis}
-                        onBlur={() => { setDis(true) }}
-                    />
-                    <EmailInput
-                        placeholder="Логин"
-                        value={form.email}
-                        name="email"
-                        onChange={onChange}
-                        isIcon={true}
-                    />
-                    <PasswordInput
-                        placeholder="Пароль"
-                        value={form.password}
-                        name={"password"}
-                        onChange={onChange}
-                        icon="EditIcon"
-                    />
-                    {(form.password != '' || form.email != user.email || form.name != user.name) && form.password != '' &&
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', maxHeight: 56 }}>
-                            <Button onClick={onClickCancel} htmlType="reset" type="secondary" style={{ width: 'min-content', alignSelf: 'center' }}>
-                                <p className={`text text_type_main-default`}>Отмена</p>
-                            </Button>
-                            <Button htmlType="submit" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
-                                Сохранить
-                            </Button>
-                        </div>}
-                </form>
-            </div>
-        </React.StrictMode>
+        <div className={styles.container}>
+            <NavProfile />
+            <form className={styles.form} onSubmit={onSubmit}>
+                <Input
+                    placeholder='Имя'
+                    type={'text'}
+                    value={user ? form.name : ''}
+                    name='name'
+                    onChange={onChange}
+                    icon='EditIcon'
+                    onIconClick={onIconClick}
+                    ref={inputRef}
+                    disabled={dis}
+                    onBlur={() => { setDis(true) }}
+                />
+                <EmailInput
+                    placeholder="Логин"
+                    value={form.email}
+                    name="email"
+                    onChange={onChange}
+                    isIcon={true}
+                />
+                <PasswordInput
+                    placeholder="Пароль"
+                    value={form.password}
+                    name={"password"}
+                    onChange={onChange}
+                    icon="EditIcon"
+                />
+                {(form.password != '' || form.email != user.email || form.name != user.name) && form.password != '' &&
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', maxHeight: 56 }}>
+                        <Button onClick={onClickCancel} htmlType="reset" type="secondary" style={{ width: 'min-content', alignSelf: 'center' }}>
+                            <p className={`text text_type_main-default`}>Отмена</p>
+                        </Button>
+                        <Button htmlType="submit" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
+                            Сохранить
+                        </Button>
+                    </div>}
+            </form>
+        </div>
     )
 }
 

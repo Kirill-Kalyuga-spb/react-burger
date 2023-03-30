@@ -1,6 +1,5 @@
 import styles from './Orders.module.css';
 import React, {useEffect} from 'react'
-import AppHeader from '../components/AppHeader/AppHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import NavProfile from '../components/NavProfile/NavProfile';
 import OrderList from '../components/OrderList/OrderList';
@@ -18,13 +17,10 @@ function Orders() {
     }, [dispatch])
    
     return (
-        <React.StrictMode>
-            <AppHeader />
-            <div className={styles.container}>
-                <NavProfile/>
-                <OrderList/>
-            </div>
-        </React.StrictMode>
+        <div className={styles.container}>
+            <NavProfile />
+            <OrderList />
+        </div>
     )
 }
 

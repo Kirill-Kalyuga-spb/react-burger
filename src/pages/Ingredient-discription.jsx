@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom";
 import ModalIngr from "../components/ModalIngr/ModalIngr";
 import styles from "./Ingredient-discription.module.css"
