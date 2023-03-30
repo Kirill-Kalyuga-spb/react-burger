@@ -3,15 +3,19 @@ import React, { useEffect } from 'react'
 import { useLocation, useParams } from 'react-router-dom';
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { WS_CONNECTION_START } from '../services/actions/ws';
+import { WS_CONNECTION_START, WS_EXIT } from '../services/actions/ws';
+import { getCookie } from '../utils/utility-function';
 
 function OrderInfo() {
     const {id} = useParams()
     const dispatch = useDispatch()
     const path = useLocation().pathname
+    const {otherPath} = useLocation().state || false
+    
+    const cookie = getCookie()
     const _id = path.split('/profile/orders/')[1] || path.split('/feed/')[1]
 
-    const {orders} = useSelector(state => state.orders)
+    const {orders, wsConnected} = useSelector(state => state.orders)
     
     const order = orders.find((order) => (order._id == _id))
     const {ingredients, status, name, number, createdAt, updatedAt} = order || {}
@@ -20,6 +24,7 @@ function OrderInfo() {
 
     const color = status == 'created' ? 'white' : status == 'done' ? '#00CCCC' : 'red'
     const word = status == 'created' ? 'Готовится' : status == 'done' ? 'Выполнен' : 'Отменён'
+    const justify = !otherPath ? 'center' : 'start'
 
     const ingredientsData = ingredients ? ingredients.reduce((acc, ingredient) => {
         if (acc[ingredient]) {
@@ -42,13 +47,20 @@ function OrderInfo() {
     ), 0) : null
 
     useEffect(() => {
-        dispatch({type: WS_CONNECTION_START})
+        if (!wsConnected) {
+            path.split('/')[1] == 'feed' ? dispatch({ type: WS_CONNECTION_START })
+                : dispatch({ type: WS_CONNECTION_START, payload: cookie.accessToken })
+        }
+    }, [dispatch, wsConnected])
+    
+    useEffect(() => {
+        if (!wsConnected && orders.length) {return () => dispatch({ type: WS_EXIT })}
     }, [dispatch])
 
     return (
-        ingrArr ? (<section className={styles.container}>
-            <p className={`${styles.numberOrder} text text_type_digits-default`}>#{number}</p>
-            <h2 className="text text_type_main-medium mt-10">{name}</h2>
+        ingrArr ? (<section className={styles.container + ` ${otherPath ? 'mt-10' : 'mt-30'}`}>
+            <p className={`${styles.numberOrder} text text_type_digits-default`} style={{justifyContent:justify}} >#{number}</p>
+            <h2 className="text text_type_main-medium mt-5" >{name}</h2>
             <p className="text text_type_main-default mt-3" style={{ color: color }}>{word}</p>
             <p className="text text_type_main-medium mt-15">Состав:</p>
             <ul className={`${styles.scroll} ${styles.list} mt-6`}>
@@ -63,7 +75,7 @@ function OrderInfo() {
                     </li>
                 ))}
             </ul>
-            <div className={`${styles.div} mt-10`}>
+            <div className={`${styles.div} mt-10 mb-10`}>
                 <p className="text text_type_main-default text_color_inactive">
                     <FormattedDate date={new Date(createdAt)} />
                 </p>

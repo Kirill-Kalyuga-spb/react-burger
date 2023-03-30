@@ -23,12 +23,14 @@ import {
       case WS_CONNECTION_ERROR:
         return {
           ...state,
+          orders: [],
           wsConnected: false
         };
   
       case WS_CONNECTION_CLOSED:
         return {
           ...state,
+          orders: [],
           wsConnected: false
         };
   

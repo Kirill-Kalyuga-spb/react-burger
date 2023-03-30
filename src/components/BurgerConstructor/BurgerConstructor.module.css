@@ -2,6 +2,8 @@
     list-style: none;
     padding-left: 0;
     max-height: 464px;
+    box-sizing: border-box;
+    width: 100%;
     overflow-y: auto;
 }
 

@@ -1,9 +1,14 @@
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import OrderInfo from '../../../pages/OrderInfo'
+import Modal from '../../Modal/Modal'
 import styles from './OrderListItem.module.css'
 
 export default function OrderListItem ({data}) {
+    const { id } = useParams();
+    const navigate = useNavigate()
     const {_id, ingredients, status, name, number, createdAt, updatedAt} = data
     const items = useSelector(state => state.items.items.data)
     const path = useLocation().pathname.split('/')[1]
@@ -19,9 +24,28 @@ export default function OrderListItem ({data}) {
         ingr.image
     ))
 
+    const [state, setState] = useState({visible: Boolean(id == data._id && id != undefined ) })
+    
+    const handlerOpenModal = () => {
+        setState({visible: true})
+    }
+
+    const handlerCloseModal = () => {
+        setState({visible: false})
+    }
+
+    const modal = (<Modal exit={handlerCloseModal} ><OrderInfo></OrderInfo></Modal>)
+
+    useEffect(() => {
+        if (!state.visible && id == data._id) {
+            path == 'feed' ? navigate('/feed') : navigate('/profile/orders')
+        }    
+    }, [state])
+
     return (
-        <li className={`mb-6 ${styles.listItem} p-6`} key={_id} >
-            <Link to={path == 'feed' ? `/feed/${_id}` : `/profile/orders/${_id}`} className={styles.link} >
+        <>
+        <li className={`mb-6 ${styles.listItem} p-6`} key={_id} onClick={handlerOpenModal}>
+            <Link to={path == 'feed' ? `/feed/${_id}` : `/profile/orders/${_id}`} state={{otherPath: true}} className={styles.link} >
             <div className={styles.div}>
                 <p className=" text text_type_digits-default">#{number}</p>
                 <p className="text text_type_main-default text_color_inactive"><FormattedDate date={new Date(createdAt)} /></p>
@@ -49,5 +73,7 @@ export default function OrderListItem ({data}) {
             </div>
             </Link>
         </li>
+        {state.visible && modal}
+        </>
     )
 }

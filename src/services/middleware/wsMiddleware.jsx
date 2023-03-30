@@ -4,6 +4,7 @@ import {
     WS_CONNECTION_ERROR,
     WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
+    WS_EXIT,
     WS_GET_ORDERS,
   } from '../actions/ws';
   
@@ -12,7 +13,8 @@ import {
     onOpen: WS_CONNECTION_SUCCESS,
     onClose: WS_CONNECTION_CLOSED,
     onError: WS_CONNECTION_ERROR,
-    onMessage: WS_GET_ORDERS
+    onMessage: WS_GET_ORDERS,
+    wsExit: WS_EXIT
   };
 
 export const socketMiddleware = () => {
@@ -22,7 +24,7 @@ export const socketMiddleware = () => {
       return next => action => {
         const { dispatch } = store;
         const { type, payload } = action;
-        const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
+        const { wsInit, onOpen, onClose, onError, onMessage, wsExit } = wsActions;
         
         if (type === wsInit && !payload) {
           socket = new WebSocket(`${wsUrl}/all`);
@@ -30,6 +32,10 @@ export const socketMiddleware = () => {
 
         if (type === wsInit && payload) {
           socket = new WebSocket(`${wsUrl}?token=${payload}`);
+        }
+
+        if (socket && type === wsExit) {
+          socket.close()
         }
 
         if (socket) {

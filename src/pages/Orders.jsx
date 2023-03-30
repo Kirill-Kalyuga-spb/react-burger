@@ -3,7 +3,7 @@ import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import NavProfile from '../components/NavProfile/NavProfile';
 import OrderList from '../components/OrderList/OrderList';
-import { WS_CONNECTION_START } from '../services/actions/ws';
+import { WS_CONNECTION_START, WS_EXIT } from '../services/actions/ws';
 import { getCookie } from '../utils/utility-function';
 
 function Orders() {
@@ -14,6 +14,7 @@ function Orders() {
 
     useEffect(() => {
         dispatch({type: WS_CONNECTION_START, payload: cookie.accessToken})
+        return (() => { dispatch({ type: WS_EXIT }) })
     }, [dispatch])
    
     return (

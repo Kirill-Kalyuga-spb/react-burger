@@ -1,13 +1,20 @@
 import {
     CloseIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import React from "react";
+import React, { useEffect } from "react";
 import { createPortal } from 'react-dom';
 import { useSelector } from 'react-redux';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import styleModal from './Modal.module.css';
 
 export default function Modal(props) {
+    const escClose = (evt) => {if (evt.key === "Escape") {props.exit()}}
+
+    useEffect(() => {
+    document.addEventListener("keydown", escClose)
+
+    return () => document.removeEventListener("keydown", escClose);
+  }, [props.exit]);
     
     return createPortal(
         <>

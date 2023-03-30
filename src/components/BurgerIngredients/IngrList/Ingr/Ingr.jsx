@@ -49,7 +49,7 @@ export default function Ingr({data}) {
     return (
         <>
         <li ref={drag} className={`${stylesIngr.item} mt-6`} onClick={handlerOpenModal} >
-            <Link className={stylesIngr.link}  to={'/ingredients/' + `${data._id}`}>
+            <Link className={stylesIngr.link}  to={'/ingredients/' + `${data._id}`} state={{otherPath: true}}>
             <img src={data.image} alt={data.name} className='pl-4'/>
             {count != 0 && <Counter count={count} size="default" extraClass="m-1" />}
             <p className={`${stylesIngr.p} text text_type_digits-default mt-1`}>{data.price}<span className='ml-1'><CurrencyIcon type="primary"/></span></p>

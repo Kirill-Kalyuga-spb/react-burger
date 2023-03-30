@@ -2,7 +2,7 @@ import styles from './Feed.module.css';
 import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import OrderList from '../components/OrderList/OrderList';
-import { WS_CONNECTION_START } from '../services/actions/ws';
+import { WS_CONNECTION_START, WS_EXIT } from '../services/actions/ws';
 
 function Feed() {
     const {logged} = useSelector(state => state.auth)
@@ -26,6 +26,7 @@ function Feed() {
 
     useEffect(() => {
         dispatch({type: WS_CONNECTION_START})
+        return (() => { dispatch({ type: WS_EXIT }) })
     }, [dispatch])
 
     return (
