@@ -8,7 +8,7 @@ import stylesBurgerConstr from './BurgerConstructor.module.css';
 import ModalOrder from '../ModalOrder/ModalOrder';
 import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_INGR, ADD_BUN, postOrder } from '../../services/actions/cart';
+import { ADD_INGR, ADD_BUN, postOrder, addIngr } from '../../services/actions/cart';
 import {useDrop} from "react-dnd";
 import BurgerConstructorIngr from './BurgerConstructorIngr/BurgerConstructorIngr';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ export default function BurgerConstructor() {
             if (item.type === 'bun') {
                 dispatch({type: ADD_BUN, ingr: item})
             } else {
-                dispatch({type: ADD_INGR, ingr: item})
+                dispatch(addIngr(item))
             }
         }
     })
@@ -81,7 +81,7 @@ export default function BurgerConstructor() {
                 <ul className={`${stylesBurgerConstr.list} ${stylesBurgerConstr.scroll} mt-4 mb-4 ${ingr.length >= 6 ? "pr-2" : "pr-4"}`}>
                     {ingr.map((item, i) => {
                         return (
-                            <BurgerConstructorIngr key={i} item={item} index={i} />
+                            <BurgerConstructorIngr key={item.uuid} item={item} index={i} />
                         )
                     })}
                 </ul>

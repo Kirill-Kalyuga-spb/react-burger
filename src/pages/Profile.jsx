@@ -80,11 +80,11 @@ function Profile() {
                     icon="EditIcon"
                 />
                 {(form.password != '' || form.email != user.email || form.name != user.name) && form.password != '' &&
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', maxHeight: 56 }}>
-                        <Button onClick={onClickCancel} htmlType="reset" type="secondary" style={{ width: 'min-content', alignSelf: 'center' }}>
+                    <div className={styles.div}>
+                        <Button onClick={onClickCancel} htmlType="reset" type="secondary" extraClass={styles.button}>
                             <p className={`text text_type_main-default`}>Отмена</p>
                         </Button>
-                        <Button htmlType="submit" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
+                        <Button htmlType="submit" type="primary" size="medium" extraClass={styles.button}>
                             Сохранить
                         </Button>
                     </div>}

@@ -1,23 +1,4 @@
-import { wsUrl } from '../../utils/constants.js';
-import {
-    WS_CONNECTION_CLOSED,
-    WS_CONNECTION_ERROR,
-    WS_CONNECTION_START,
-    WS_CONNECTION_SUCCESS,
-    WS_EXIT,
-    WS_GET_ORDERS,
-  } from '../actions/ws';
-  
-  const wsActions = {
-    wsInit: WS_CONNECTION_START,
-    onOpen: WS_CONNECTION_SUCCESS,
-    onClose: WS_CONNECTION_CLOSED,
-    onError: WS_CONNECTION_ERROR,
-    onMessage: WS_GET_ORDERS,
-    wsExit: WS_EXIT
-  };
-
-export const socketMiddleware = () => {
+export const socketMiddleware = (wsActions, wsUrl) => {
     return store => {
       let socket = null;
   
@@ -26,13 +7,17 @@ export const socketMiddleware = () => {
         const { type, payload } = action;
         const { wsInit, onOpen, onClose, onError, onMessage, wsExit } = wsActions;
         
-        if (type === wsInit && !payload) {
-          socket = new WebSocket(`${wsUrl}/all`);
-        }
+        // if (type === wsInit && !payload) {
+        //   socket = new WebSocket(`${wsUrl}/all`);
+        // }
 
-        if (type === wsInit && payload) {
-          socket = new WebSocket(`${wsUrl}?token=${payload}`);
-        }
+        // if (type === wsInit && payload) {
+        //   socket = new WebSocket(`${wsUrl}?token=${payload}`);
+        // }
+
+        if (type === wsInit) {
+          socket = new WebSocket(`${wsUrl}${payload}`);
+        };
 
         if (socket && type === wsExit) {
           socket.close()

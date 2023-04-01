@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useLocation, useParams } from 'react-router-dom';
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { WS_CONNECTION_START, WS_EXIT } from '../services/actions/ws';
+import { WS_CONNECTION_START, WS_EXIT, wsConnectedAll, wsConnectedExit, wsConnectedUser } from '../services/actions/ws';
 import { getCookie } from '../utils/utility-function';
 
 function OrderInfo() {
@@ -48,13 +48,13 @@ function OrderInfo() {
 
     useEffect(() => {
         if (!wsConnected) {
-            path.split('/')[1] == 'feed' ? dispatch({ type: WS_CONNECTION_START })
-                : dispatch({ type: WS_CONNECTION_START, payload: cookie.accessToken })
+            path.split('/')[1] == 'feed' ? dispatch(wsConnectedAll())
+                : dispatch(wsConnectedUser(cookie.accessToken))
         }
     }, [dispatch, wsConnected])
     
     useEffect(() => {
-        if (!wsConnected && orders.length) {return () => dispatch({ type: WS_EXIT })}
+        if (!wsConnected && orders.length) {return () => dispatch(wsConnectedExit())}
     }, [dispatch])
 
     return (

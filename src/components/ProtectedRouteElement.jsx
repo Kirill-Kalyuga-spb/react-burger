@@ -8,11 +8,11 @@ export const ProtectedRouteElement = ({ element, accessLevel }) => {
   const accessToken = getCookie().accessToken
   const location = useLocation()
 
-  if (accessLevel == onlyAuth) {
+  if (accessLevel === onlyAuth) {
     return accessToken ? element : <Navigate to="/login" state={location} />;
   }
 
-  if (accessLevel == onlyGuest) {
+  if (accessLevel === onlyGuest) {
     return !accessToken ? element 
       : <Navigate to={location.state ? location.state.pathname : '/'} replace />;
   }

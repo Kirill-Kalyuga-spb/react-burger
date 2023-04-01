@@ -13,3 +13,14 @@
     flex-direction: column;
     margin-top: 80px;
   }
+
+  .button {
+   width: 'min-content';
+   align-self: center;
+  }
+
+  .div {
+    display: flex;
+    justify-content: flex-end;
+    max-height: 56px;
+  }
