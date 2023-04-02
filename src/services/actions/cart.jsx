@@ -15,9 +15,8 @@ export const POST_ORDER_FAILED = 'POST_ORDER_FAILED'
 
 export const addIngr = (item) => {
     const uuid = uuidv4()
-    console.log(uuid)
     item.uuid = uuid
-    return {type: ADD_INGR, ingr: item}
+    return {type: ADD_INGR, ingr: {...item}}
 }
 
 export function postOrder(order, token) {
