@@ -1,5 +1,6 @@
 import { apiUrl } from "../../utils/constants"
 import { checkResponse } from "../../utils/utility-function"
+import { v4 as uuidv4 } from 'uuid';
 
 export const ADD_INGR = 'ADD_INGR'
 export const ADD_BUN = 'ADD_BUN'
@@ -12,8 +13,14 @@ export const POST_ORDER_REQUEST = 'POST_ORDER_REQUEST'
 export const POST_ORDER_SUCCESS = 'POST_ORDER_SUCCESS'
 export const POST_ORDER_FAILED = 'POST_ORDER_FAILED'
 
-export function postOrder(order) {
-    
+export const addIngr = (item) => {
+    const uuid = uuidv4()
+    item.uuid = uuid
+    return {type: ADD_INGR, ingr: {...item}}
+}
+
+export function postOrder(order, token) {
+
     return function(dispatch) {
         dispatch({
             type: POST_ORDER_REQUEST
@@ -21,7 +28,8 @@ export function postOrder(order) {
         fetch(`${apiUrl}orders`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + `${token.accessToken}`
               },
             body: JSON.stringify({
                 "ingredients": order
@@ -35,6 +43,7 @@ export function postOrder(order) {
                 }) 
             })
             .catch(err => {
+                console.error(err)
                 dispatch({
                     type: POST_ORDER_FAILED,
                 })

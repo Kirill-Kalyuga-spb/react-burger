@@ -109,7 +109,7 @@ export function postLogout(token) {
                 dispatch({
                     type: POST_LOGOUT_SUCCESS,
                 })
-                document.cookie = `accessToken=;expires=${new Date(0)}`
+                document.cookie = `accessToken=; max-age=0`
             })
             .catch(err => {
                 dispatch({

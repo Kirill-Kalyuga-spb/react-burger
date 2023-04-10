@@ -7,3 +7,8 @@ export const cookie = getCookie()
 
 export const onlyAuth = 'auth'
 export const onlyGuest = 'guest'
+
+export const wsUrl = 'wss://norma.nomoreparties.space/orders'
+
+export const textProfile = 'В этом разделе вы можете изменить свои персональные данные'
+export const textProfileOrders = 'В этом разделе вы можете просмотреть свою историю заказов'

@@ -1,6 +1,5 @@
 import styles from './Login.module.css';
 import React, { useState } from 'react'
-import AppHeader from '../components/AppHeader/AppHeader';
 import {
     EmailInput,
     Button
@@ -28,25 +27,22 @@ function ForgotPassword()  {
     }
 
     return (
-        <React.StrictMode>
-            <AppHeader />
-            <div className={styles.container}>
-                <form className={styles.form} onSubmit={onSubmit}>
-                    <h1 className={`${styles.heading} text text_type_main-medium`}>Восстановление пароля</h1>
+        <div className={styles.container}>
+            <form className={styles.form} onSubmit={onSubmit}>
+                <h1 className={`${styles.heading} text text_type_main-medium`}>Восстановление пароля</h1>
 
-                    <EmailInput
-                        placeholder="Укажите e-mail"
-                        value={form.email}
-                        onChange={onChange}
-                    />
-                    
-                    <Button htmlType="submit" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
-                        Восстановить
-                    </Button>
-                </form>
-                <p className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}>Вспомнили пароль? <Link to='/login' className={styles.link}>Войти</Link></p>
-            </div>
-        </React.StrictMode>
+                <EmailInput
+                    placeholder="Укажите e-mail"
+                    value={form.email}
+                    onChange={onChange}
+                />
+
+                <Button htmlType="submit" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
+                    Восстановить
+                </Button>
+            </form>
+            <p className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}>Вспомнили пароль? <Link to='/login' className={styles.link}>Войти</Link></p>
+        </div>
     )
 }
 
