@@ -2,6 +2,8 @@ import { useDispatch } from "react-redux"
 import { apiUrl } from "../../utils/constants"
 import { checkResponse } from "../../utils/utility-function"
 import { postToken } from "./auth"
+import { AppDispatch } from "../types"
+import { TToken, TUser } from "../types/data"
 
 export const GET_PROFILE_REQUEST = 'GET_PROFILE_REQUEST'
 export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS'
@@ -11,8 +13,8 @@ export const PATCH_PROFILE_REQUEST = 'PATCH_PROFILE_REQUEST'
 export const PATCH_PROFILE_SUCCESS = 'PATCH_PROFILE_SUCCESS'
 export const PATCH_PROFILE_FAILED = 'PATCH_PROFILE_FAILED'
 
-export function getProfile(token) {
-    return function(dispatch) {
+export function getProfile(token: string) {
+    return function(dispatch: AppDispatch) {
         dispatch({
             type: GET_PROFILE_REQUEST
         })
@@ -39,8 +41,8 @@ export function getProfile(token) {
     }
 }
 
-export function patchProfile(token, data) {
-    return function(dispatch) {
+export function patchProfile(token: TToken, data: TUser) {
+    return function(dispatch: AppDispatch) {
         dispatch({
             type: PATCH_PROFILE_REQUEST
         })

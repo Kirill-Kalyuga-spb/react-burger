@@ -5,9 +5,10 @@ import {
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
-import { MOVE_INGR, REMOVE_INGR, HOVER_INGR } from '../../../services/actions/cart';
+import { REMOVE_INGR, HOVER_INGR } from '../../../services/actionsTypes/cart';
 
 import stylesBurgerConstrIngr from './BurgerConstructorIngr.module.css';
+import { hoverIngrAction, removeIngrAction } from '../../../services/actions/cart';
 
 
 export default function BurgerConstractorIngr({item, index}) {
@@ -27,16 +28,13 @@ export default function BurgerConstractorIngr({item, index}) {
             isOver: monitor.isOver()
           }),
         hover(item) {
-            dispatch({type: HOVER_INGR, item: item, indexDrop: index})
+            dispatch(hoverIngrAction(item.index,index))
             item.index = index
         }
     })
 
     const removeItem = () => {
-        dispatch({
-            type: REMOVE_INGR,
-            item: {index}
-        })
+        dispatch(removeIngrAction(index))
     }
 
     const opacity = isDragging ? 0.5 : isOver ? 1 : 1

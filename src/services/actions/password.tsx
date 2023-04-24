@@ -1,16 +1,17 @@
 import { apiUrl } from "../../utils/constants"
 import { checkResponse } from "../../utils/utility-function"
+import { AppDispatch } from "../types"
 
-export const POST_EMAIL_REQUEST = 'POST_EMAIL_REQUEST'
-export const POST_EMAIL_SUCCESS = 'POST_EMAIL_SUCCESS'
-export const POST_EMAIL_FAILED = 'POST_EMAIL_FAILED'
+export const POST_EMAIL_REQUEST: 'POST_EMAIL_REQUEST' = 'POST_EMAIL_REQUEST'
+export const POST_EMAIL_SUCCESS: 'POST_EMAIL_SUCCESS' = 'POST_EMAIL_SUCCESS'
+export const POST_EMAIL_FAILED: 'POST_EMAIL_FAILED' = 'POST_EMAIL_FAILED'
 
-export const POST_NEWPASSWORD_REQUEST = 'POST_NEWPASSWORD_REQUEST'
-export const POST_NEWPASSWORD_SUCCESS = 'POST_NEWPASSWORD_SUCCESS'
-export const POST_NEWPASSWORD_FAILED = 'POST_NEWPASSWORD_FAILED'
+export const POST_NEWPASSWORD_REQUEST: 'POST_NEWPASSWORD_REQUEST' = 'POST_NEWPASSWORD_REQUEST'
+export const POST_NEWPASSWORD_SUCCESS: 'POST_NEWPASSWORD_SUCCESS' = 'POST_NEWPASSWORD_SUCCESS'
+export const POST_NEWPASSWORD_FAILED: 'POST_NEWPASSWORD_FAILED' = 'POST_NEWPASSWORD_FAILED'
 
-export function postEmail(email) {
-    return function(dispatch) {
+export function postEmail(email: string) {
+    return function(dispatch: AppDispatch) {
         dispatch({
             type: POST_EMAIL_REQUEST
         })
@@ -38,9 +39,9 @@ export function postEmail(email) {
     }
 }
 
-export function postNewpassword(form) {
+export function postNewpassword(form: {password: string; code: string;}) {
     
-    return function(dispatch) {
+    return function(dispatch: AppDispatch) {
         dispatch({
             type: POST_NEWPASSWORD_REQUEST
         })

@@ -6,14 +6,6 @@ export const socketMiddleware = (wsActions, wsUrl) => {
         const { dispatch } = store;
         const { type, payload } = action;
         const { wsInit, onOpen, onClose, onError, onMessage, wsExit } = wsActions;
-        
-        // if (type === wsInit && !payload) {
-        //   socket = new WebSocket(`${wsUrl}/all`);
-        // }
-
-        // if (type === wsInit && payload) {
-        //   socket = new WebSocket(`${wsUrl}?token=${payload}`);
-        // }
 
         if (type === wsInit) {
           socket = new WebSocket(`${wsUrl}${payload}`);

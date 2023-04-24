@@ -1,25 +1,43 @@
 import { getCookie } from "../../utils/utility-function"
+import {TAuthActions} from "../actions/auth"
 import {
-  POST_LOGIN_REQUEST,
-  POST_LOGIN_SUCCESS,
-  POST_LOGIN_FAILED,
+    POST_LOGIN_REQUEST,
+    POST_LOGIN_SUCCESS,
+    POST_LOGIN_FAILED,
 
-  POST_REGISTER_REQUEST,
-  POST_REGISTER_SUCCESS,
-  POST_REGISTER_FAILED,
+    POST_REGISTER_REQUEST,
+    POST_REGISTER_SUCCESS,
+    POST_REGISTER_FAILED,
 
-  POST_LOGOUT_REQUEST,
-  POST_LOGOUT_SUCCESS,
-  POST_LOGOUT_FAILED,
+    POST_LOGOUT_REQUEST,
+    POST_LOGOUT_SUCCESS,
+    POST_LOGOUT_FAILED,
 
-  POST_TOKEN_REQUEST,
-  POST_TOKEN_SUCCESS,
-  POST_TOKEN_FAILED
-} from "../actions/auth"
+    POST_TOKEN_REQUEST,
+    POST_TOKEN_SUCCESS,
+    POST_TOKEN_FAILED
+} from "../actionsTypes/auth"
+import { TToken } from "../types/data"
 
-const cookie = getCookie()
+const cookie: TToken = getCookie()
 
-const initialState = {
+type TAuthState = {
+    logged: boolean,
+    
+    registerRequest: boolean,
+    registerFailed: boolean,
+
+    loginRequest: boolean,
+    loginFailed: boolean,
+
+    logoutRequest: boolean,
+    logoutFailed: boolean,
+
+    tokenRequest: boolean,
+    tokenFailed: boolean,
+}
+
+const initialState: TAuthState = {
     logged: Boolean(cookie.accessToken),
     
     registerRequest: false,
@@ -35,7 +53,7 @@ const initialState = {
     tokenFailed: false,
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions) => {
     switch (action.type) {
         case POST_REGISTER_REQUEST: {
             return {

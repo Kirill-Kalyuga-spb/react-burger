@@ -8,11 +8,12 @@ import stylesBurgerConstr from './BurgerConstructor.module.css';
 import ModalOrder from '../ModalOrder/ModalOrder';
 import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_INGR, ADD_BUN, postOrder, addIngr } from '../../services/actions/cart';
+import { postOrder, addIngr } from '../../services/actions/cart';
 import {useDrop} from "react-dnd";
 import BurgerConstructorIngr from './BurgerConstructorIngr/BurgerConstructorIngr';
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from '../../utils/utility-function';
+import { ADD_BUN } from '../../services/actionsTypes/cart';
 
 export default function BurgerConstructor() {
     const dispatch = useDispatch()

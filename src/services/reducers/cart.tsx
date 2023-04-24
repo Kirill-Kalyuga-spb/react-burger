@@ -1,16 +1,27 @@
+import { TCartActions } from "../actions/cart";
 import {
     ADD_INGR,
     ADD_BUN,
-    MOVE_INGR,
     REMOVE_INGR,
     POST_ORDER_REQUEST,
     POST_ORDER_SUCCESS,
     POST_ORDER_FAILED,
     HOVER_INGR
-} from "../actions/cart"
+} from "../actionsTypes/cart"
 
+import {TIngredient} from "../types/data"
 
-const initialState = {
+type TCartState = {
+    orderId: number | null,
+    orderRequest: boolean,
+    orderFailed: boolean,
+    orderSuccess: boolean,
+
+    ingr: Array<TIngredient>,
+    bun: TIngredient | {[K in any] : never}
+};
+
+const initialState: TCartState = {
     orderId: null,
     orderRequest: false,
     orderFailed: false,
@@ -20,7 +31,7 @@ const initialState = {
     bun: {}
 }
 
-export const cartReducer = (state = initialState, action) => {
+export const cartReducer = (state = initialState, action: TCartActions) => {
     switch (action.type) {
         case POST_ORDER_REQUEST: {
             return {
@@ -60,7 +71,7 @@ export const cartReducer = (state = initialState, action) => {
         }
         
         case REMOVE_INGR: {
-            const indexItem = action.item.index;
+            const indexItem = action.index;
             return {
                 ...state,
                 ingr: [
@@ -70,7 +81,7 @@ export const cartReducer = (state = initialState, action) => {
             }
         }
         case HOVER_INGR: {
-            const indexItem = action.item.index;
+            const indexItem = action.index;
             const indexDrop = action.indexDrop;
             const ingr = [...state.ingr];
             const ingrHover = ingr.splice(indexDrop, 1)[0];
