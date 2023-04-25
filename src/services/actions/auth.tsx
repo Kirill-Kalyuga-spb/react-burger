@@ -27,6 +27,10 @@ export interface IPostLoginFailedAction {
 
 export interface IPostLoginSuccessAction {
     readonly type: typeof POST_LOGIN_SUCCESS;
+    email: string;
+    name: string;
+    password: string;
+    accessToken: string;
 }
 
 export const postLoginAction = (): IPostLoginAction => ({
@@ -37,8 +41,12 @@ export const postLoginFailedAction = (): IPostLoginFailedAction => ({
     type: POST_LOGIN_FAILED
 });
 
-export const postLoginSuccessAction = (): IPostLoginSuccessAction => ({
-    type: POST_LOGIN_SUCCESS
+export const postLoginSuccessAction = (email: string, name: string, password: string, token: string): IPostLoginSuccessAction => ({
+    type: POST_LOGIN_SUCCESS,
+    email: email,
+    name: name,
+    password: password,
+    accessToken: token
 });
 
 
@@ -53,6 +61,10 @@ export interface IPostRegisterFailedAction {
 
 export interface IPostRegisterSuccessAction {
     readonly type: typeof POST_REGISTER_SUCCESS;
+    email: string;
+    name: string;
+    password: string;
+    accessToken: string;
 }
 
 export const postRegisterAction = (): IPostRegisterAction => ({
@@ -63,8 +75,12 @@ export const postRegisterFailedAction = (): IPostRegisterFailedAction => ({
     type: POST_REGISTER_FAILED
 });
 
-export const postRegisterSuccessAction = (): IPostRegisterSuccessAction => ({
-    type: POST_REGISTER_SUCCESS
+export const postRegisterSuccessAction = (email: string, name: string, password: string, token: string): IPostRegisterSuccessAction => ({
+    type: POST_REGISTER_SUCCESS,
+    email: email,
+    name: name,
+    password: password,
+    accessToken: token
 });
 
 
@@ -134,9 +150,7 @@ export type TAuthActions = IPostLoginAction
 
 export function postLogin(props: TUser) {
     return function(dispatch: AppDispatch) {
-        dispatch({
-            type: POST_LOGIN_REQUEST
-        })
+        dispatch(postLoginAction())
         fetch(`${apiUrl}auth/login`, {
             method: 'POST',
             headers: {
@@ -149,20 +163,18 @@ export function postLogin(props: TUser) {
         })
             .then(res => {return checkResponse(res)})
             .then(data => {
-                dispatch({
-                    type: POST_LOGIN_SUCCESS,
-                    email: data.user.email,
-                    name: data.user.name,
-                    password: props.password,
-                    accessToken: data.accessToken
-                })
+                dispatch(postLoginSuccessAction(
+                    data.user.email,
+                    data.user.name,
+                    props.password,
+                    data.accessToken
+                    )
+                )
                 setCookie('refreshToken', data.refreshToken)
                 setCookie('accessToken', data.accessToken, {expires})
             })
             .catch(err => {
-                dispatch({
-                    type: POST_LOGIN_FAILED,
-                })
+                dispatch(postLoginFailedAction())
             });
     }
 }
@@ -170,9 +182,7 @@ export function postLogin(props: TUser) {
 export function postRegister(props: TUser) {
     
     return function(dispatch: AppDispatch) {
-        dispatch({
-            type: POST_REGISTER_REQUEST
-        })
+        dispatch(postRegisterAction())
         fetch(`${apiUrl}auth/register`, {
             method: 'POST',
             headers: {
@@ -186,20 +196,18 @@ export function postRegister(props: TUser) {
         })
             .then(res => {return checkResponse(res)})
             .then(data => {
-                dispatch({
-                    type: POST_REGISTER_SUCCESS,
-                    email: data.user.email,
-                    name: data.user.name,
-                    password: props.password,
-                    accessToken: data.accessToken
-                }) 
+                dispatch(postRegisterSuccessAction(
+                    data.user.email,
+                    data.user.name,
+                    props.password,
+                    data.accessToken
+                    )
+                ) 
                 setCookie('refreshToken', data.refreshToken)
                 setCookie('accessToken', data.accessToken, {expires})
             })
             .catch(err => {
-                dispatch({
-                    type: POST_REGISTER_FAILED,
-                })
+                dispatch(postRegisterFailedAction())
             });
     }
 }
@@ -207,9 +215,7 @@ export function postRegister(props: TUser) {
 export function postLogout(token: string) {
     
     return function(dispatch: AppDispatch) {
-        dispatch({
-            type: POST_LOGOUT_REQUEST
-        })
+        dispatch(postLogoutAction())
         fetch(`${apiUrl}auth/logout`, {
             method: 'POST',
             headers: {
@@ -221,15 +227,11 @@ export function postLogout(token: string) {
         })
             .then(res => {return checkResponse(res)})
             .then(data => {
-                dispatch({
-                    type: POST_LOGOUT_SUCCESS,
-                })
+                dispatch(postLogoutSuccessAction())
                 document.cookie = `accessToken=; max-age=0`
             })
             .catch(err => {
-                dispatch({
-                    type: POST_LOGOUT_FAILED,
-                })
+                dispatch(postLogoutFailedAction())
             });
     }
 }
@@ -238,11 +240,8 @@ export function postToken(props: {
     token: TToken;
     fetch: Function;
     data: TUser;
-}) {console.log(props.data)
-    return function (dispatch: AppDispatch) {
-        dispatch({
-            type: POST_TOKEN_REQUEST
-        })
+}) {return function (dispatch: AppDispatch) {
+        dispatch(postTokenAction())
         fetch(`${apiUrl}auth/token`, {
             method: 'POST',
             headers: {
@@ -255,9 +254,7 @@ export function postToken(props: {
             .then(res => { return checkResponse(res) })
             .then(data => {
                 setCookie('accessToken', data.accessToken, { expires })
-                dispatch({
-                    type: POST_TOKEN_SUCCESS
-                })
+                dispatch(postTokenSuccessAction())
             })
             .then(data => {
                 if (props.fetch && props.data) {
@@ -265,9 +262,7 @@ export function postToken(props: {
                 }
             })
             .catch(err => {
-                dispatch({
-                    type: POST_TOKEN_FAILED,
-                })
+                dispatch(postTokenFailedAction())
             });
     }
 }

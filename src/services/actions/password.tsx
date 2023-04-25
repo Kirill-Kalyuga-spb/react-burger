@@ -1,20 +1,76 @@
 import { apiUrl } from "../../utils/constants"
 import { checkResponse } from "../../utils/utility-function"
+import {
+    POST_EMAIL_REQUEST,
+    POST_EMAIL_SUCCESS,
+    POST_EMAIL_FAILED,
+
+    POST_NEWPASSWORD_REQUEST,
+    POST_NEWPASSWORD_SUCCESS,
+    POST_NEWPASSWORD_FAILED
+} from "../actionsTypes/password";
 import { AppDispatch } from "../types"
 
-export const POST_EMAIL_REQUEST: 'POST_EMAIL_REQUEST' = 'POST_EMAIL_REQUEST'
-export const POST_EMAIL_SUCCESS: 'POST_EMAIL_SUCCESS' = 'POST_EMAIL_SUCCESS'
-export const POST_EMAIL_FAILED: 'POST_EMAIL_FAILED' = 'POST_EMAIL_FAILED'
+export interface IPostEmailAction {
+    readonly type: typeof POST_EMAIL_REQUEST;
+}
 
-export const POST_NEWPASSWORD_REQUEST: 'POST_NEWPASSWORD_REQUEST' = 'POST_NEWPASSWORD_REQUEST'
-export const POST_NEWPASSWORD_SUCCESS: 'POST_NEWPASSWORD_SUCCESS' = 'POST_NEWPASSWORD_SUCCESS'
-export const POST_NEWPASSWORD_FAILED: 'POST_NEWPASSWORD_FAILED' = 'POST_NEWPASSWORD_FAILED'
+export interface IPostEmailFailedAction {
+    readonly type: typeof POST_EMAIL_FAILED;
+}
+
+export interface IPostEmailSuccessAction {
+    readonly type: typeof POST_EMAIL_SUCCESS;
+}
+
+export const postEmailAction = (): IPostEmailAction => ({
+    type: POST_EMAIL_REQUEST
+});
+
+export const postEmailFailedAction = (): IPostEmailFailedAction => ({
+    type: POST_EMAIL_FAILED
+});
+
+export const postEmailSuccessAction = (): IPostEmailSuccessAction => ({
+    type: POST_EMAIL_SUCCESS,
+});
+
+
+
+export interface IPostNewpasswordAction {
+    readonly type: typeof POST_NEWPASSWORD_REQUEST;
+}
+
+export interface IPostNewpasswordFailedAction {
+    readonly type: typeof POST_NEWPASSWORD_FAILED;
+}
+
+export interface IPostNewpasswordSuccessAction {
+    readonly type: typeof POST_NEWPASSWORD_SUCCESS;
+}
+
+export const postNewpasswordAction = (): IPostNewpasswordAction => ({
+    type: POST_NEWPASSWORD_REQUEST
+});
+
+export const postNewpasswordFailedAction = (): IPostNewpasswordFailedAction => ({
+    type: POST_NEWPASSWORD_FAILED
+});
+
+export const postNewpasswordSuccessAction = (): IPostNewpasswordSuccessAction => ({
+    type: POST_NEWPASSWORD_SUCCESS,
+});
+
+export type TPassowrd = IPostEmailAction
+| IPostEmailFailedAction
+| IPostEmailSuccessAction
+| IPostNewpasswordAction
+| IPostNewpasswordFailedAction
+| IPostNewpasswordSuccessAction
 
 export function postEmail(email: string) {
     return function(dispatch: AppDispatch) {
-        dispatch({
-            type: POST_EMAIL_REQUEST
-        })
+        dispatch(postEmailAction())
         fetch(`${apiUrl}password-reset`, {
             method: 'POST',
             headers: {
@@ -25,16 +81,10 @@ export function postEmail(email: string) {
               })
         }).then(res => {return checkResponse(res)})
         .then(data => {
-            console.log(data)
-            dispatch({
-                type: POST_EMAIL_SUCCESS,
-                data: data
-            })
+            dispatch(postEmailSuccessAction())
         })
         .catch(err => {
-            dispatch({
-                type: POST_EMAIL_FAILED
-            })
+            dispatch(postEmailSuccessAction())
         });
     }
 }
@@ -42,9 +92,7 @@ export function postEmail(email: string) {
 export function postNewpassword(form: {password: string; code: string;}) {
     
     return function(dispatch: AppDispatch) {
-        dispatch({
-            type: POST_NEWPASSWORD_REQUEST
-        })
+        dispatch(postNewpasswordAction())
         fetch(`${apiUrl}password-reset/reset`, {
             method: 'POST',
             headers: {
@@ -57,16 +105,10 @@ export function postNewpassword(form: {password: string; code: string;}) {
             })
         }).then(res => { return checkResponse(res) })
             .then(data => {
-                console.log(data)
-                dispatch({
-                    type: POST_NEWPASSWORD_SUCCESS,
-                    data: data
-                })
+                dispatch(postNewpasswordSuccessAction())
             })
             .catch(err => {
-                dispatch({
-                    type: POST_NEWPASSWORD_FAILED,
-                })
+                dispatch(postNewpasswordFailedAction())
             });
     }
 }

@@ -1,9 +1,11 @@
+import { TWsActions } from "../actions/ws";
 import {
-    WS_CONNECTION_SUCCESS,
-    WS_CONNECTION_ERROR,
-    WS_CONNECTION_CLOSED,
-    WS_GET_ORDERS
-  } from '../actions/ws';
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_SUCCESS,
+  WS_GET_ORDERS
+} from "../actionsTypes/ws";
+
   
   const initialState = {
     wsConnected: false,
@@ -12,7 +14,7 @@ import {
     totalToday: null,
   };
   
-  export const wsReducer = (state = initialState, action) => {
+  export const wsReducer = (state = initialState, action: TWsActions) => {
     switch (action.type) {
       case WS_CONNECTION_SUCCESS:
         return {

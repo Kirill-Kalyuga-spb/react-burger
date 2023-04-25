@@ -104,9 +104,7 @@ export const addIngr = (item: TIngredient) => {
 
 export function postOrder(order: Array<string>, token: TToken) {
     return function(dispatch: AppDispatch) {
-        dispatch({
-            type: POST_ORDER_REQUEST
-        })
+        dispatch(postOrderAction())
         fetch(`${apiUrl}orders`, {
             method: 'POST',
             headers: {
@@ -119,16 +117,11 @@ export function postOrder(order: Array<string>, token: TToken) {
         })
             .then(res => {return checkResponse(res)})
             .then(data => {
-                dispatch({
-                    type: POST_ORDER_SUCCESS,
-                    orderId: data.order.number
-                }) 
+                dispatch(postOrderSuccessAction(data.order.number))
             })
             .catch(err => {
                 console.error(err)
-                dispatch({
-                    type: POST_ORDER_FAILED,
-                })
+                dispatch(postOrderFailedAction())
             });
     }
 }

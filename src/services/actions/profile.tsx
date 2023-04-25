@@ -1,23 +1,86 @@
-import { useDispatch } from "react-redux"
 import { apiUrl } from "../../utils/constants"
 import { checkResponse } from "../../utils/utility-function"
 import { postToken } from "./auth"
 import { AppDispatch } from "../types"
 import { TToken, TUser } from "../types/data"
+import {
+    GET_PROFILE_REQUEST,
+    GET_PROFILE_SUCCESS,
+    GET_PROFILE_FAILED,
 
-export const GET_PROFILE_REQUEST = 'GET_PROFILE_REQUEST'
-export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS'
-export const GET_PROFILE_FAILED = 'GET_PROFILE_FAILED'
+    PATCH_PROFILE_REQUEST,
+    PATCH_PROFILE_SUCCESS,
+    PATCH_PROFILE_FAILED
+} from "../actionsTypes/profile"
 
-export const PATCH_PROFILE_REQUEST = 'PATCH_PROFILE_REQUEST'
-export const PATCH_PROFILE_SUCCESS = 'PATCH_PROFILE_SUCCESS'
-export const PATCH_PROFILE_FAILED = 'PATCH_PROFILE_FAILED'
+export interface IGetProfileAction {
+    readonly type: typeof GET_PROFILE_REQUEST;
+}
+
+export interface IGetProfileFailedAction {
+    readonly type: typeof GET_PROFILE_FAILED;
+}
+
+export interface IGetProfileSuccessAction {
+    readonly type: typeof GET_PROFILE_SUCCESS;
+    email: string;
+    name: string;
+}
+
+export const getProfileAction = (): IGetProfileAction => ({
+    type: GET_PROFILE_REQUEST
+});
+
+export const getProfileFailedAction = (): IGetProfileFailedAction => ({
+    type: GET_PROFILE_FAILED
+});
+
+export const getProfileSuccessAction = (email: string, name: string): IGetProfileSuccessAction => ({
+    type: GET_PROFILE_SUCCESS,
+    email: email,
+    name: name
+});
+
+
+
+export interface IPatchProfileAction {
+    readonly type: typeof PATCH_PROFILE_REQUEST;
+}
+
+export interface IPatchProfileFailedAction {
+    readonly type: typeof PATCH_PROFILE_FAILED;
+}
+
+export interface IPatchProfileSuccessAction {
+    readonly type: typeof PATCH_PROFILE_SUCCESS;
+    email: string;
+    name: string;
+}
+
+export const patchProfileAction = (): IPatchProfileAction => ({
+    type: PATCH_PROFILE_REQUEST
+});
+
+export const patchProfileFailedAction = (): IPatchProfileFailedAction => ({
+    type: PATCH_PROFILE_FAILED
+});
+
+export const patchProfileSuccessAction = (email: string, name: string): IPatchProfileSuccessAction => ({
+    type: PATCH_PROFILE_SUCCESS,
+    email: email,
+    name: name
+});
+
+export type TProfileActions = IGetProfileAction
+| IGetProfileFailedAction
+| IGetProfileSuccessAction
+| IPatchProfileAction
+| IPatchProfileFailedAction
+| IPatchProfileSuccessAction
 
 export function getProfile(token: string) {
     return function(dispatch: AppDispatch) {
-        dispatch({
-            type: GET_PROFILE_REQUEST
-        })
+        dispatch(getProfileAction())
         fetch(`${apiUrl}auth/user`, {
             method: 'GET',
             headers: {
@@ -27,25 +90,17 @@ export function getProfile(token: string) {
         })
             .then(res => {return checkResponse(res)})
             .then(data => {
-                dispatch({
-                    type: GET_PROFILE_SUCCESS,
-                    email: data.user.email,
-                    name: data.user.name
-                })
+                dispatch(getProfileSuccessAction(data.user.email, data.user.name))
             })
             .catch(err => {
-                dispatch({
-                    type: GET_PROFILE_FAILED,
-                })
+                dispatch(getProfileFailedAction())
             });
     }
 }
 
 export function patchProfile(token: TToken, data: TUser) {
     return function(dispatch: AppDispatch) {
-        dispatch({
-            type: PATCH_PROFILE_REQUEST
-        })
+        dispatch(patchProfileAction())
         fetch(`${apiUrl}auth/user`, {
             method: 'PATCH',
             headers: {
@@ -60,19 +115,13 @@ export function patchProfile(token: TToken, data: TUser) {
         })
             .then(res => {return checkResponse(res)})
             .then(data => {
-                dispatch({
-                    type: PATCH_PROFILE_SUCCESS,
-                    email: data.user.email,
-                    name: data.user.name
-                })
+                dispatch(patchProfileSuccessAction(data.user.email, data.user.name))
             })
             .catch(err => {
                 if(err.split('Ошибка: ')[1]) {
-                    dispatch(postToken({fetch: patchProfile, token, data}))
+                    dispatch<any>(postToken({fetch: patchProfile, token, data}))
                 } else {
-                dispatch({
-                    type: PATCH_PROFILE_FAILED,
-                })
+                dispatch(patchProfileFailedAction())
             }
             });
     }

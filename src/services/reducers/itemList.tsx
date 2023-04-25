@@ -1,13 +1,20 @@
-import { GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS } from "../actions/itemList"
+import { TItemListActions } from "../actions/itemList"
+import { GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS } from "../actionsTypes/itemList"
+import { TIngredient } from "../types/data"
 
+type TItemListState = {
+    items: Array<TIngredient>,
+    itemsRequest: boolean,
+    itemsFailed: boolean
+};
 
-const initialState = {
+const initialState: TItemListState = {
     items: [],
     itemsRequest: false,
     itemsFailed: false
 }
 
-export const itemsListReducer = (state = initialState, action) => {
+export const itemsListReducer = (state = initialState, action: TItemListActions) => {
     switch (action.type) {
         case GET_ITEMS_REQUEST: {
             return {

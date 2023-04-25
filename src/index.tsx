@@ -19,7 +19,7 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_EXIT,
   WS_GET_ORDERS
-} from './services/actions/ws';
+} from './services/actionsTypes/ws';
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,

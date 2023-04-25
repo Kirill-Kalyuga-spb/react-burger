@@ -1,28 +1,49 @@
 import { apiUrl } from "../../utils/constants"
 import { checkResponse } from "../../utils/utility-function"
+import { GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS } from "../actionsTypes/itemList";
 import { AppDispatch } from "../types"
+import { TIngredient } from "../types/data"
 
-export const GET_ITEMS_REQUEST: 'GET_ITEMS_REQUEST' = 'GET_ITEMS_REQUEST'
-export const GET_ITEMS_SUCCESS: 'GET_ITEMS_SUCCESS' = 'GET_ITEMS_SUCCESS'
-export const GET_ITEMS_FAILED: 'GET_ITEMS_FAILED' = 'GET_ITEMS_FAILED'
+export interface IGetItemsAction {
+    readonly type: typeof GET_ITEMS_REQUEST;
+}
+
+export interface IGetItemsFailedAction {
+    readonly type: typeof GET_ITEMS_FAILED;
+}
+
+export interface IGetItemsSuccessAction {
+    readonly type: typeof GET_ITEMS_SUCCESS;
+    readonly items: Array<TIngredient>;
+}
+
+export const getItemsAction = (): IGetItemsAction => ({
+    type: GET_ITEMS_REQUEST
+});
+
+export const getItemsFailedAction = (): IGetItemsFailedAction => ({
+    type: GET_ITEMS_FAILED
+});
+
+export const getItemsSuccessAction = (data: Array<TIngredient>): IGetItemsSuccessAction => ({
+    type: GET_ITEMS_SUCCESS,
+    items: data
+});
+
+export type TItemListActions = IGetItemsAction
+| IGetItemsFailedAction
+| IGetItemsSuccessAction
 
 export function getItems() {
     return function(dispatch: AppDispatch) {
-        dispatch({
-            type: GET_ITEMS_REQUEST
-        })
+        dispatch(getItemsAction())
         fetch(`${apiUrl}ingredients`)
             .then(res => {return checkResponse(res)})
             .then(data => {
-                dispatch({
-                    type: GET_ITEMS_SUCCESS,
-                    items: data
-                }) 
+                dispatch(getItemsSuccessAction(data)) 
             })
             .catch(err => {
-                dispatch({
-                    type: GET_ITEMS_FAILED,
-                })
+                dispatch(getItemsFailedAction())
             });
     }
 }

@@ -1,3 +1,4 @@
+import { TProfileActions } from "../actions/profile"
 import {
     GET_PROFILE_REQUEST,
     GET_PROFILE_SUCCESS,
@@ -6,10 +7,22 @@ import {
     PATCH_PROFILE_REQUEST,
     PATCH_PROFILE_SUCCESS,
     PATCH_PROFILE_FAILED
-} from "../actions/profile"
-  
-  
-  const initialState = {
+} from "../actionsTypes/profile"
+import { TUser } from "../types/data"
+
+  type TProfileState = {
+    user: TUser,
+
+    accessToken: string,
+
+    getRequest: boolean,
+    getFailed: boolean,
+
+    patchRequest: boolean,
+    patchFailed: boolean
+  }
+
+  const initialState: TProfileState = {
       user: {
           email: "",
           name: "",
@@ -25,7 +38,7 @@ import {
       patchFailed: false
   }
   
-  export const profileReducer = (state = initialState, action) => {
+  export const profileReducer = (state = initialState, action: TProfileActions) => {
       switch (action.type) {
           case GET_PROFILE_REQUEST: {
               return {
