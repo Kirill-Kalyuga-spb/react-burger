@@ -9,7 +9,7 @@ import {
     POST_NEWPASSWORD_SUCCESS,
     POST_NEWPASSWORD_FAILED
 } from "../actionsTypes/password";
-import { AppDispatch } from "../types"
+import { AppDispatch, AppThunk } from "../types"
 
 export interface IPostEmailAction {
     readonly type: typeof POST_EMAIL_REQUEST;
@@ -61,15 +61,14 @@ export const postNewpasswordSuccessAction = (): IPostNewpasswordSuccessAction =>
     type: POST_NEWPASSWORD_SUCCESS,
 });
 
-export type TPassowrd = IPostEmailAction
+export type TPassowrdActions = IPostEmailAction
 | IPostEmailFailedAction
 | IPostEmailSuccessAction
 | IPostNewpasswordAction
 | IPostNewpasswordFailedAction
 | IPostNewpasswordSuccessAction
 
-export function postEmail(email: string) {
-    return function(dispatch: AppDispatch) {
+export const postEmail:AppThunk = (email: string) => (dispatch: AppDispatch) => {
         dispatch(postEmailAction())
         fetch(`${apiUrl}password-reset`, {
             method: 'POST',
@@ -86,11 +85,10 @@ export function postEmail(email: string) {
         .catch(err => {
             dispatch(postEmailSuccessAction())
         });
-    }
+    
 }
 
-export function postNewpassword(form: {password: string; code: string;}) {
-    
+export const postNewpassword:AppThunk = function(form: {password: string; code: string;}) {
     return function(dispatch: AppDispatch) {
         dispatch(postNewpasswordAction())
         fetch(`${apiUrl}password-reset/reset`, {

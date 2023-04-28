@@ -14,7 +14,7 @@ import {
     POST_TOKEN_REQUEST,
     POST_TOKEN_SUCCESS
 } from "../actionsTypes/auth"
-import { AppDispatch } from "../types"
+import { AppDispatch, AppThunk } from "../types"
 import { TToken, TUser } from "../types/data"
 
 export interface IPostLoginAction {
@@ -148,7 +148,7 @@ export type TAuthActions = IPostLoginAction
 | IPostTokenFailedAction
 | IPostTokenSuccessAction
 
-export function postLogin(props: TUser) {
+export const postLogin: AppThunk = function (props: TUser) {
     return function(dispatch: AppDispatch) {
         dispatch(postLoginAction())
         fetch(`${apiUrl}auth/login`, {

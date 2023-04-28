@@ -1,14 +1,14 @@
 import styles from './Orders.module.css';
-import React, {useEffect} from 'react'
-import { useDispatch } from 'react-redux';
+import {useEffect} from 'react'
 import NavProfile from '../components/NavProfile/NavProfile';
 import OrderList from '../components/OrderList/OrderList';
 import { wsConnectedExit, wsConnectedUser } from '../services/actions/ws';
 import { getCookie } from '../utils/utility-function';
+import { useDispatch } from '../hooks/hooks';
 
 function Orders() {
     const dispatch = useDispatch()
-    const cookie = getCookie()
+    const cookie: {accessToken: string} = getCookie()
 
     useEffect(() => {
         dispatch(wsConnectedUser(cookie.accessToken))

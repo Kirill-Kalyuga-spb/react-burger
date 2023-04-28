@@ -24,3 +24,13 @@ export type TToken = {
     refreshToken?: string;
     accessToken?: string;
 };
+
+export type TOrder = {
+    status: string;
+    _id: string;
+    ingredients: Array<string>;
+    name: string;
+    number: number;
+    createdAt: string;
+    updatedAt: string;
+}

@@ -1,4 +1,4 @@
-import {TPassowrd} from "../actions/password"
+import {TPassowrdActions} from "../actions/password"
 import {
     POST_EMAIL_REQUEST,
     POST_EMAIL_SUCCESS,
@@ -32,7 +32,7 @@ const initialState: TPassowrdState = {
     passwordFailed: false
 }
 
-  export const passwordReducer = (state = initialState, action: TPassowrd) => {
+  export const passwordReducer = (state = initialState, action: TPassowrdActions) => {
       switch (action.type) {
           case POST_EMAIL_REQUEST: {
               return {

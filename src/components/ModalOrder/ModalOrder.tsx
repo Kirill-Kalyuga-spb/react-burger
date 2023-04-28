@@ -1,7 +1,6 @@
-import React from "react";
 import stylesModalOrder from './ModalOrder.module.css';
 import orderImg from './../../images/graphics.svg'
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/hooks";
 
 export default function ModalOrder() {
     const {orderId} = useSelector(state => state.cart)

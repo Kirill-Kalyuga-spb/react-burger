@@ -40,7 +40,7 @@ export function getItems() {
         fetch(`${apiUrl}ingredients`)
             .then(res => {return checkResponse(res)})
             .then(data => {
-                dispatch(getItemsSuccessAction(data)) 
+                dispatch(getItemsSuccessAction(data.data))
             })
             .catch(err => {
                 dispatch(getItemsFailedAction())

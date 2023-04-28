@@ -5,34 +5,35 @@ import React, { useEffect, useRef, useState } from 'react';
 import { spaceFromBlockToTop } from '../../utils/constants';
 import stylesBurgerIngr from './BurgerIngredients.module.css';
 import IngrList from './IngrList/IngrList';
+import { useSelector } from '../../hooks/hooks';
 
-export default function BurgerIngredients(props) {
+export default function BurgerIngredients() {
     const [current, setCurrent] = useState('bun');
     
-    const refList = useRef(null)
+    const refList = useRef<HTMLUListElement>(null)
 
-    const refBun = useRef(null)
-    const refSause = useRef(null)
-    const refMain = useRef(null)
+    const refBun = useRef<HTMLInputElement>(null)
+    const refSause = useRef<HTMLInputElement>(null)
+    const refMain = useRef<HTMLInputElement>(null)
 
-    const handlerType = (e) => {
+    const handlerType = (e: any) => {
         setCurrent(e)
         const ref = e === 'bun' ? refBun : (e === 'main' ? refMain : refSause)
-        ref.current.scrollIntoView({ behavior: "smooth" })
+        ref.current ? ref.current.scrollIntoView({ behavior: "smooth" }) : null
     }
 
     const bunTop = () => {
-        return Math.abs(refBun.current.getBoundingClientRect().top - spaceFromBlockToTop)
+        return Math.abs(refBun.current ? refBun.current.getBoundingClientRect().top - spaceFromBlockToTop : 0)
     }
     const sauseTop = () => {
-        return Math.abs(refSause.current.getBoundingClientRect().top - spaceFromBlockToTop)
+        return Math.abs(refSause.current ? refSause.current.getBoundingClientRect().top - spaceFromBlockToTop : 0)
     }
     const mainTop = () => {
-        return Math.abs(refMain.current.getBoundingClientRect().top - spaceFromBlockToTop)
+        return Math.abs(refMain.current ? refMain.current.getBoundingClientRect().top - spaceFromBlockToTop : 0)
     }
 
     const handlerScroll = () => {
-        refList.current.addEventListener('scroll', function() {
+        refList.current ? refList.current.addEventListener('scroll', function() {
             
             if (bunTop() < sauseTop() && bunTop() < mainTop()) {
                 setCurrent('bun')
@@ -43,7 +44,7 @@ export default function BurgerIngredients(props) {
             if (mainTop() < sauseTop() && mainTop() < bunTop()) {
                 setCurrent('main')
             }
-          })
+          }) : null
     }
 
     useEffect(() => {
@@ -67,9 +68,9 @@ export default function BurgerIngredients(props) {
                 
             </nav>
             <ul ref={refList} className={`${stylesBurgerIngr.list} ${stylesBurgerIngr.scroll}`}>
-                <IngrList ref={refBun} key='bun' type='bun' data={props.data} />
-                <IngrList ref={refSause} key='sauce' type='sauce' data={props.data} />
-                <IngrList ref={refMain} key='main' type='main' data={props.data} />
+                <IngrList ref={refBun} key='bun' type='bun' />
+                <IngrList ref={refSause} key='sauce' type='sauce' />
+                <IngrList ref={refMain} key='main' type='main' />
             </ul>
         </section>
     )

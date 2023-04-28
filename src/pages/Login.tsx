@@ -3,37 +3,30 @@ import React, {useState} from 'react'
 import {
     EmailInput,
     PasswordInput,
-    Button,
-    Input
+    Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Navigate } from 'react-router-dom'
-import { postRegister } from '../services/actions/auth';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCookie } from '../utils/utility-function';
+import {Link} from 'react-router-dom'
+import { postLogin } from '../services/actions/auth';
+import { useDispatch } from '../hooks/hooks';
 
-function Register()  {
-    const [form, setValue] = useState({ name: '', email: '', password: '' });
+function Login()  {
+    const [form, setValue] = useState({ email: '', password: '' });
     const dispatch = useDispatch()
 
-    const onChange = e => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue({ ...form, [e.target.name]: e.target.value });
       };
 
-    const onSubmit = e => {
+    const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        dispatch(postRegister(form))
+        dispatch(postLogin(form))
     }
 
     return (
         <div className={styles.container}>
             <form className={styles.form} onSubmit={onSubmit}>
-                <h1 className={`${styles.heading} text text_type_main-medium`}>Регистрация</h1>
-                <Input
-                    placeholder='Имя'
-                    value={form.name}
-                    name='name'
-                    onChange={onChange}
-                />
+                <h1 className={`${styles.heading} text text_type_main-medium`}>Вход</h1>
+
                 <EmailInput
                     placeholder="E-mail"
                     value={form.email}
@@ -47,12 +40,13 @@ function Register()  {
                     onChange={onChange}
                 />
                 <Button htmlType="submit" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
-                    Зарегистрироваться
+                    Войти
                 </Button>
             </form>
-            <p className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}>Уже зарегистрированы? <Link to='/login' className={styles.link}>Войти</Link></p>
+            <p className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}>Вы - новый пользователь? <Link to='/register' className={styles.link}>Зарегестрироваться</Link></p>
+            <p className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}>Забыли пароль? <Link to='/forgot-password' className={styles.link}>Восстановить пароль</Link></p>
         </div>
     )
 }
 
-export default Register
+export default Login

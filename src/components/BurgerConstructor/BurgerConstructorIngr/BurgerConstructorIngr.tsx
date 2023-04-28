@@ -4,16 +4,17 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
-import { REMOVE_INGR, HOVER_INGR } from '../../../services/actionsTypes/cart';
+// import { useDispatch } from 'react-redux';
 
 import stylesBurgerConstrIngr from './BurgerConstructorIngr.module.css';
 import { hoverIngrAction, removeIngrAction } from '../../../services/actions/cart';
+import { TIngredient } from '../../../services/types/data';
+import { useDispatch } from '../../../hooks/hooks';
 
 
-export default function BurgerConstractorIngr({item, index}) {
+export default function BurgerConstractorIngr({item, index} : {item: TIngredient, index: number}) {
     const dispatch = useDispatch()
-    const ref = useRef(null)
+    const ref = useRef<HTMLLIElement>(null)
     const [{isDragging}, drag] = useDrag({
         type: 'ingrContainer',
         item: {item, index},
@@ -27,7 +28,7 @@ export default function BurgerConstractorIngr({item, index}) {
         collect: monitor => ({
             isOver: monitor.isOver()
           }),
-        hover(item) {
+        hover(item: any) {
             dispatch(hoverIngrAction(item.index,index))
             item.index = index
         }
@@ -42,7 +43,7 @@ export default function BurgerConstractorIngr({item, index}) {
     drag(drop(ref))
 
     return (
-        <li ref={ref} index={index} style={{opacity}} className={`${stylesBurgerConstrIngr.item} mb-4`}>
+        <li ref={ref} key={index} style={{opacity}} className={`${stylesBurgerConstrIngr.item} mb-4`}>
             <span className={`mr-2`}>
                 <DragIcon type="primary" />
             </span>

@@ -3,12 +3,11 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import React, { useEffect } from "react";
 import { createPortal } from 'react-dom';
-import { useSelector } from 'react-redux';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import styleModal from './Modal.module.css';
 
-export default function Modal(props) {
-    const escClose = (evt) => {if (evt.key === "Escape") {props.exit()}}
+export default function Modal(props: {exit: () => void, children: React.ReactNode}) {
+    const escClose = (evt: KeyboardEvent) => {if (evt.key === "Escape") {props.exit()}}
 
     useEffect(() => {
     document.addEventListener("keydown", escClose)
@@ -24,6 +23,6 @@ export default function Modal(props) {
             <div className={styleModal.div}>{props.children}</div>
         </div>
         </>,
-        document.getElementById("react-modals")
+        document.getElementById("react-modals") as HTMLElement
     )
 }

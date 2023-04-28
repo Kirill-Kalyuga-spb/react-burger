@@ -1,27 +1,30 @@
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import OrderInfo from '../../../pages/OrderInfo'
 import Modal from '../../Modal/Modal'
 import styles from './OrderListItem.module.css'
+import { TOrder } from '../../../services/types/data'
+import { useSelector } from '../../../hooks/hooks'
 
-export default function OrderListItem ({data}) {
+export default function OrderListItem ({data}: {data: TOrder, key: string}) {
     const { id } = useParams();
     const navigate = useNavigate()
     const {_id, ingredients, status, name, number, createdAt, updatedAt} = data
-    const items = useSelector(state => state.items.items.data)
+    const items = useSelector(state => state.items.items)
     const path = useLocation().pathname.split('/')[1]
     const color = status == 'created' ? 'white' : status == 'done' ? '#00CCCC' : 'red'
     const word = status == 'created' ? 'Готовится' : status == 'done' ? 'Выполнен' : 'Отменён'
    
     const ingrsData = ingredients.map((id) => (
         items.find(item => item._id == id)
-    )).filter((item) => item !== undefined)
+    )).filter((item) => {return item !== undefined})
   
-    const prices = ingrsData.reduce((acc, item) => (acc += item.price), 0) 
+    const prices = ingrsData.reduce((acc, item) => (
+        item != undefined ? acc += item.price : acc
+        ), 0) 
     const dataImg = ingrsData.map((ingr) => (
-        ingr.image
+        ingr?.image
     ))
 
     const [state, setState] = useState({visible: Boolean(id == data._id && id != undefined ) })

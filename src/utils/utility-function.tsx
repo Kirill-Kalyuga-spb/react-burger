@@ -1,11 +1,11 @@
-export const checkResponse = (res) => {
+export const checkResponse = (res: any) => {
     if (res.ok) {
         return res.json()
     }
     return Promise.reject(`Ошибка: ${res.status}`)
 }
 
-export function setCookie(name, value, props) {
+export function setCookie(name: string, value: string, props?: any) {
     props = props || {};
     let exp = props.expires;
     if (typeof exp == 'number' && exp) {
@@ -32,7 +32,7 @@ export function setCookie(name, value, props) {
   }
 
 export function getCookie() {
-  return document.cookie.split('; ').reduce((acc, item) => {
+  return document.cookie.split('; ').reduce((acc: any, item) => {
     const [name, value] = item.split('=')
     acc[name] = value
     return acc

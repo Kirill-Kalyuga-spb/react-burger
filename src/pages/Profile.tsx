@@ -6,34 +6,35 @@ import {
     Input,
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from '../utils/utility-function';
 import { getProfile, patchProfile } from '../services/actions/profile';
 import NavProfile from '../components/NavProfile/NavProfile';
+import { useDispatch, useSelector } from '../hooks/hooks';
+import { TToken } from '../services/types/data';
 
 function Profile() {
     const { user } = useSelector(state => state.profile)
     const [form, setValue] = useState({ name: user.name, email: user.email, password: '' });
     const [dis, setDis] = useState(true)
     const {logged} = useSelector(state => state.auth)
-    const inputRef = React.useRef(null)
+    const inputRef = React.useRef<HTMLInputElement>(null)
     const dispatch = useDispatch()
-    const cookie = getCookie()
+    const cookie: TToken = getCookie()
 
-    const onChange = e => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
 
-    const onIconClick = e => {
+    const onIconClick = () => {
         setDis(false)
-        setTimeout(() => inputRef.current.focus(), 0)
+        setTimeout(() => inputRef.current !== null ? inputRef.current.focus() : null, 0)
     }
 
-    const onClickCancel = e => {
+    const onClickCancel = () => {
         setValue({ name: user.name, email: user.email, password: '' })
     }
 
-    const onSubmit = e => {
+    const onSubmit = (e: React.FormEvent) => {
             e.preventDefault();
             
             dispatch(patchProfile(cookie, form))

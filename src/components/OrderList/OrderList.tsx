@@ -1,9 +1,10 @@
 import OrderListItem from "./OrderListItem/OrderListItem"
 import styles from './OrderList.module.css'
-import { useSelector } from "react-redux"
+import { TOrder } from "../../services/types/data"
+import { useSelector } from "../../hooks/hooks"
 
 export default function OrderList () {
-    const {orders} = useSelector(state => state.orders)
+    const {orders}: {orders: Array<TOrder>} = useSelector(state => state.orders)
     
     return (
         <div className={`${styles.section} ${styles.scroll} pr-2`}>

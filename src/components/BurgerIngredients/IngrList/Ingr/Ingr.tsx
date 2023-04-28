@@ -2,16 +2,17 @@ import {
     Counter,
     CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
 import Modal from '../../../Modal/Modal';
 import ModalIngr from '../../../ModalIngr/ModalIngr';
 import stylesIngr from './Ingr.module.css';
 import PropTypes from "prop-types";
-import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { TIngredient } from '../../../../services/types/data';
+import { useSelector } from '../../../../hooks/hooks';
 
-export default function Ingr({data}) {
+export default function Ingr({data} : {data: TIngredient}) {
     const { id } = useParams();
     const [state, setState] = useState({visible: Boolean(id == data._id && id != undefined ) })
     const {ingr, bun} = useSelector(state => state.cart)

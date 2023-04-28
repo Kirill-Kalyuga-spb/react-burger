@@ -5,9 +5,17 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_GET_ORDERS
 } from "../actionsTypes/ws";
+import { TOrder } from "../types/data";
 
-  
-  const initialState = {
+  type TWsState = {
+    wsConnected: boolean,
+    orders: Array<TOrder>,
+
+    total: null | number,
+    totalToday: null | number,
+  }  
+
+  const initialState: TWsState = {
     wsConnected: false,
     orders: [],
     total: null,
@@ -25,14 +33,14 @@ import {
       case WS_CONNECTION_ERROR:
         return {
           ...state,
-          orders: [],
+          // orders: [],
           wsConnected: false
         };
   
       case WS_CONNECTION_CLOSED:
         return {
           ...state,
-          orders: [],
+          // orders: [],
           wsConnected: false
         };
   

@@ -5,21 +5,17 @@ import {
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import {Link, Navigate} from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
 import { postEmail } from '../services/actions/password';
+import { useDispatch, useSelector } from '../hooks/hooks';
 
 function ForgotPassword()  {
-    const [form, setValue] = useState({ email: '' });
+    const [email, setValue] = useState('');
     const { emailSend } = useSelector(state => state.password)
     const dispatch = useDispatch()
 
-    const onChange = e => {
-        setValue({ ['email']: e.target.value });
-      };
-
-    const onSubmit = e => {
+    const onSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
-        dispatch(postEmail(form.email))
+        dispatch(postEmail(email))
     }
 
     if (emailSend) {
@@ -33,8 +29,8 @@ function ForgotPassword()  {
 
                 <EmailInput
                     placeholder="Укажите e-mail"
-                    value={form.email}
-                    onChange={onChange}
+                    value={email}
+                    onChange={e => setValue(e.target.value)}
                 />
 
                 <Button htmlType="submit" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>

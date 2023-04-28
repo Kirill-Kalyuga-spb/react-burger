@@ -4,7 +4,6 @@ import {
     Logo,
     ProfileIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
 import stylesHeader from './AppHeader.module.css';
 import {Link, useLocation} from 'react-router-dom'
 

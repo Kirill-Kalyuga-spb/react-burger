@@ -3,30 +3,36 @@ import React, {useState} from 'react'
 import {
     EmailInput,
     PasswordInput,
-    Button
+    Button,
+    Input
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {Link} from 'react-router-dom'
-import { useDispatch } from 'react-redux';
-import { postLogin } from '../services/actions/auth';
+import { Link } from 'react-router-dom'
+import { postRegister } from '../services/actions/auth';
+import { useDispatch } from '../hooks/hooks';
 
-function Login()  {
-    const [form, setValue] = useState({ email: '', password: '' });
+function Register()  {
+    const [form, setValue] = useState({ name: '', email: '', password: '' });
     const dispatch = useDispatch()
 
-    const onChange = e => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue({ ...form, [e.target.name]: e.target.value });
       };
 
-    const onSubmit = e => {
+    const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        dispatch(postLogin(form))
+        dispatch(postRegister(form))
     }
 
     return (
         <div className={styles.container}>
             <form className={styles.form} onSubmit={onSubmit}>
-                <h1 className={`${styles.heading} text text_type_main-medium`}>Вход</h1>
-
+                <h1 className={`${styles.heading} text text_type_main-medium`}>Регистрация</h1>
+                <Input
+                    placeholder='Имя'
+                    value={form.name}
+                    name='name'
+                    onChange={onChange}
+                />
                 <EmailInput
                     placeholder="E-mail"
                     value={form.email}
@@ -40,13 +46,12 @@ function Login()  {
                     onChange={onChange}
                 />
                 <Button htmlType="submit" type="primary" size="medium" style={{ width: 'min-content', alignSelf: 'center' }}>
-                    Войти
+                    Зарегистрироваться
                 </Button>
             </form>
-            <p className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}>Вы - новый пользователь? <Link to='/register' className={styles.link}>Зарегестрироваться</Link></p>
-            <p className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}>Забыли пароль? <Link to='/forgot-password' className={styles.link}>Восстановить пароль</Link></p>
+            <p className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}>Уже зарегистрированы? <Link to='/login' className={styles.link}>Войти</Link></p>
         </div>
     )
 }
 
-export default Login
+export default Register

@@ -8,14 +8,14 @@ import ResetPassword from '../../pages/Reset-password';
 import Profile from '../../pages/Profile';
 import { ProtectedRouteElement } from '../ProtectedRouteElement';
 import { onlyAuth, onlyGuest } from '../../utils/constants';
-import { useDispatch, useSelector } from 'react-redux';
 import { getItems } from '../../services/actions/itemList';
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import IngredientDescription from '../../pages/Ingredient-discription';
 import AppHeader from '../AppHeader/AppHeader';
 import Orders from '../../pages/Orders';
 import OrderInfo from '../../pages/OrderInfo';
 import Feed from '../../pages/Feed';
+import { useDispatch, useSelector } from '../../hooks/hooks';
 
 export default function App() {
   const location = useLocation()
@@ -31,7 +31,7 @@ export default function App() {
     <>
       <AppHeader />
       <Routes>
-        <Route path="/" element={<HomePage data={items.data} />} />
+        <Route path="/" element={<HomePage />} />
 
         <Route path="/login" element={<ProtectedRouteElement
           accessLevel={onlyGuest}
@@ -63,8 +63,8 @@ export default function App() {
         {otherPath ? <Route path="/feed/:id" element={<Feed />} />
           : <Route path="/feed/:id" element={<OrderInfo />} />}
 
-        {otherPath ? <Route path="/ingredients/:id" element={<HomePage data={items.data} />} />
-          : <Route path="/ingredients/:id" element={items.success ? <IngredientDescription data={items.data} />
+        {otherPath ? <Route path="/ingredients/:id" element={<HomePage />} />
+          : <Route path="/ingredients/:id" element={items.length != 0 ? <IngredientDescription />
             : <>loading...</>} />}
 
         <Route path="*" element={<NotFound404 />} />

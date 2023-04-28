@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { postLogout } from "../../services/actions/auth"
 import { getCookie } from "../../utils/utility-function"
@@ -7,6 +6,7 @@ import {
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { textProfile, textProfileOrders } from "../../utils/constants"
+import { useDispatch } from "../../hooks/hooks";
 
 export default function NavProfile () {
     const dispatch = useDispatch()
@@ -15,7 +15,7 @@ export default function NavProfile () {
     const logicPath = location.pathname.split('/')[2] == 'orders'
     const text = logicPath ? textProfileOrders : textProfile
 
-    const onClickExit = e => {
+    const onClickExit = () => {
         dispatch(postLogout(cookie.refreshToken))
     }
 

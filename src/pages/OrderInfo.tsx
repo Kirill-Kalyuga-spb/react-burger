@@ -1,10 +1,11 @@
 import styles from './OrderInfo.module.css';
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useLocation, useParams } from 'react-router-dom';
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { WS_CONNECTION_START, WS_EXIT, wsConnectedAll, wsConnectedExit, wsConnectedUser } from '../services/actions/ws';
+import { wsConnectedAll, wsConnectedExit, wsConnectedUser } from '../services/actions/ws';
 import { getCookie } from '../utils/utility-function';
+import { TIngredient, TOrder } from '../services/types/data';
+import { useDispatch, useSelector } from '../hooks/hooks';
 
 function OrderInfo() {
     const {id} = useParams()
@@ -12,21 +13,21 @@ function OrderInfo() {
     const path = useLocation().pathname
     const {otherPath} = useLocation().state || false
     
-    const cookie = getCookie()
+    const cookie: any = getCookie()
     const _id = path.split('/profile/orders/')[1] || path.split('/feed/')[1]
 
-    const {orders, wsConnected} = useSelector(state => state.orders)
+    const {orders, wsConnected}: {wsConnected: boolean, orders: Array<TOrder>} = useSelector(state => state.orders)
     
     const order = orders.find((order) => (order._id == _id))
-    const {ingredients, status, name, number, createdAt, updatedAt} = order || {}
+    const {ingredients, status, name, number, createdAt, updatedAt} = order || {createdAt: 0}
 
-    const items = useSelector(state => state.items.items.data)
+    const items: Array<TIngredient> = useSelector(state => state.items.items)
 
     const color = status == 'created' ? 'white' : status == 'done' ? '#00CCCC' : 'red'
     const word = status == 'created' ? 'Готовится' : status == 'done' ? 'Выполнен' : 'Отменён'
     const justify = !otherPath ? 'center' : 'start'
 
-    const ingredientsData = ingredients ? ingredients.reduce((acc, ingredient) => {
+    const ingredientsData = ingredients ? ingredients.reduce((acc: any, ingredient: any) => {
         if (acc[ingredient]) {
           acc[ingredient].count += 1;
           return acc;
@@ -38,11 +39,11 @@ function OrderInfo() {
 
     const ingrArr = ingredientsData ? Object.entries(ingredientsData).map((arr) => (
         arr.slice(1,2)
-    )).flat().map((data) => (
+    )).flat().map((data: any) => (
         {...items.find(item => item._id == data._id), 'counter':  data.count}
     )) : undefined
     
-    const price = ingrArr ? ingrArr.reduce((acc, item) => (
+    const price = ingrArr ? ingrArr.reduce((acc, item: any) => (
         acc += item.price * item.counter
     ), 0) : null
 
@@ -53,7 +54,7 @@ function OrderInfo() {
         }
     }, [dispatch, wsConnected])
     
-    useEffect(() => {
+    useEffect(():any => {
         if (!wsConnected && orders.length) {return () => dispatch(wsConnectedExit())}
     }, [dispatch])
 

@@ -8,10 +8,12 @@ import {
     PATCH_PROFILE_SUCCESS,
     PATCH_PROFILE_FAILED
 } from "../actionsTypes/profile"
-import { TUser } from "../types/data"
 
   type TProfileState = {
-    user: TUser,
+    user: {
+        email: string,
+        name: string,
+    },
 
     accessToken: string,
 
@@ -26,7 +28,6 @@ import { TUser } from "../types/data"
       user: {
           email: "",
           name: "",
-          password: ''
       },
   
       accessToken: '',

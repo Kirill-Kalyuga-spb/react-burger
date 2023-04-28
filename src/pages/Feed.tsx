@@ -1,18 +1,19 @@
 import styles from './Feed.module.css';
 import React, {useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
 import OrderList from '../components/OrderList/OrderList';
 import { wsConnectedAll, wsConnectedExit } from '../services/actions/ws';
+import { useDispatch, useSelector } from '../hooks/hooks';
+import { TOrder } from '../services/types/data';
 
 function Feed() {
     const {logged} = useSelector(state => state.auth)
-    const orders = useSelector(state => state.orders)
+    const orders: {orders: Array<TOrder>, total: number | null, totalToday: number | null} = useSelector(state => state.orders)
     const dispatch = useDispatch()
 
     const done = orders.orders.filter((order) => order.status == 'done')
     const created = orders.orders.filter((order) => order.status =='created')
 
-    function sliceIntoChunks(arr, chunkSize) {
+    function sliceIntoChunks(arr: Array<any>, chunkSize: any) {
         const res = [];
         for (let i = 0; i < arr.length; i += chunkSize) {
             const chunk = arr.slice(i, i + chunkSize);
@@ -40,7 +41,7 @@ function Feed() {
                                 <h3 className='text text_type_main-medium mb-6'>Готовы:</h3>
                                 <div className={styles.listContainer + " " + styles.scroll}>
                                     {arrDone.map((arr, index) => (<ul key={index} className={styles.list}>
-                                        {arr.map((order, index) => {
+                                        {arr.map((order) => {
                                             return (<li key={order._id} className={styles.p + ` ${styles.li}` + " text text_type_digits-default mb-2"}>{order.number}</li>)
                                         })}
                                     </ul>))}
@@ -50,7 +51,7 @@ function Feed() {
                                 <h3 className='text text_type_main-medium mb-6'>В работе:</h3>
                                 <div className={styles.listContainer + " " + styles.scroll}>
                                     {arrCreated.map((arr, index) => (<ul key={index} className={styles.list}>
-                                        {arr.map((order, index) => {
+                                        {arr.map((order) => {
                                             return (<li key={order._id} className={`${styles.li}` + " text text_type_digits-default mb-2"}>{order.number}</li>)
                                         })}
                                     </ul>))}

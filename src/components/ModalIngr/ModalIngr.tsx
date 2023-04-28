@@ -1,8 +1,7 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import { TIngredient } from '../../services/types/data';
 import stylesModalIngr from './ModalIngr.module.css';
 
-export default function ModalIngr(props) {
+export default function ModalIngr(props: {data: TIngredient, ingrPage?: boolean}) {
    
     return (
         <>

@@ -96,7 +96,6 @@ export type TCartActions = IAddIngreAction
 | IPostOrderSuccessAction
 
 export const addIngr = (item: TIngredient) => {
-    console.log(item)
     const uuid = uuidv4()
     item.uuid = uuid
     return {type: ADD_INGR, ingr: {...item}}

@@ -4,13 +4,13 @@ import BurgerIngredients from '../components/BurgerIngredients/BurgerIngredients
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
-function HomePage({data})  {
+function HomePage()  {
 
     return (
         <div>
             <DndProvider backend={HTML5Backend}>
                 <main className={styles.main}>
-                        <BurgerIngredients data={data} />
+                        <BurgerIngredients />
                         <BurgerConstractor />
                 </main>
             </DndProvider>

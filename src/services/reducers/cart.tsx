@@ -12,7 +12,7 @@ import {
 import {TIngredient} from "../types/data"
 
 type TCartState = {
-    orderId: number | null,
+    orderId: null | string,
     orderRequest: boolean,
     orderFailed: boolean,
     orderSuccess: boolean,
