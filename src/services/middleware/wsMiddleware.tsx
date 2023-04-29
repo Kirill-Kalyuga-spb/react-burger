@@ -1,16 +1,12 @@
 import { TWsConnectionActions } from "../actionsTypes/ws";
-import { store as STORE } from '../../index'
+import { Middleware, MiddlewareAPI } from "redux";
+import { AppDispatch, RootState } from "../types";
 
-type TSocketActions = {
-  type: string;
-  payload: any;
-} 
-
-export const socketMiddleware = (wsActions: TWsConnectionActions, wsUrl: string):any => {
-    return (store: typeof STORE) => {
-      let socket:any = null;
+export const socketMiddleware = (wsActions: TWsConnectionActions, wsUrl: string): Middleware => {
+    return (store:  MiddlewareAPI<AppDispatch, RootState>) => {
+      let socket: WebSocket | null = null;
   
-      return (next:any) => (action: TSocketActions) => {
+      return (next) => (action) => {
         const { dispatch } = store;
         const { type, payload } = action;
         const { wsInit, onOpen, onClose, onError, onMessage, wsExit } = wsActions;

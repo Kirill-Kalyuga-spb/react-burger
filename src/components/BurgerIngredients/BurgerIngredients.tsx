@@ -1,11 +1,10 @@
 import {
     Tab
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { spaceFromBlockToTop } from '../../utils/constants';
 import stylesBurgerIngr from './BurgerIngredients.module.css';
 import IngrList from './IngrList/IngrList';
-import { useSelector } from '../../hooks/hooks';
 
 export default function BurgerIngredients() {
     const [current, setCurrent] = useState('bun');
@@ -16,10 +15,10 @@ export default function BurgerIngredients() {
     const refSause = useRef<HTMLInputElement>(null)
     const refMain = useRef<HTMLInputElement>(null)
 
-    const handlerType = (e: any) => {
+    const handlerType = (e: string) => {
         setCurrent(e)
         const ref = e === 'bun' ? refBun : (e === 'main' ? refMain : refSause)
-        ref.current ? ref.current.scrollIntoView({ behavior: "smooth" }) : null
+        ref.current?.scrollIntoView({ behavior: "smooth" })
     }
 
     const bunTop = () => {
@@ -33,7 +32,7 @@ export default function BurgerIngredients() {
     }
 
     const handlerScroll = () => {
-        refList.current ? refList.current.addEventListener('scroll', function() {
+        refList.current?.addEventListener('scroll', function() {
             
             if (bunTop() < sauseTop() && bunTop() < mainTop()) {
                 setCurrent('bun')
@@ -44,7 +43,7 @@ export default function BurgerIngredients() {
             if (mainTop() < sauseTop() && mainTop() < bunTop()) {
                 setCurrent('main')
             }
-          }) : null
+          })
     }
 
     useEffect(() => {
