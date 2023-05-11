@@ -19,7 +19,7 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_EXIT,
   WS_GET_ORDERS
-} from './services/actions/ws';
+} from './services/actionsTypes/ws';
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,
@@ -38,7 +38,7 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActions, wsUrl)));
-const store = createStore(rootReducer, enhancer); 
+export const store = createStore(rootReducer, enhancer);
 
 
 const root = ReactDOM.createRoot(
